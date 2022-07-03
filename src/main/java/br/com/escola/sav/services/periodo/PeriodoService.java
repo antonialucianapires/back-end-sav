@@ -1,5 +1,6 @@
 package br.com.escola.sav.services.periodo;
 
+import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PeriodoService implements IPeriodoService{
@@ -32,5 +35,10 @@ public class PeriodoService implements IPeriodoService{
         periodoRepository.save(novoPeriodo);
 
 
+    }
+
+    @Override
+    public List<PeriodoResponseDTO> consultarPeriodos() {
+        return periodoRepository.findAll().stream().map(PeriodoResponseDTO::new).collect(Collectors.toList());
     }
 }
