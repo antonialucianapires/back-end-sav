@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/periodos")
 public class PeriodoController {
@@ -23,7 +25,7 @@ public class PeriodoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResultView<Void>> criarPeriodo(@RequestBody PeriodoRequestDTO periodoRequestDTO) {
+    public ResponseEntity<ResultView<Void>> criarPeriodo(@RequestBody @Valid PeriodoRequestDTO periodoRequestDTO) {
 
         periodoService.criarPeriodo(periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo());
 
