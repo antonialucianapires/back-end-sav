@@ -11,4 +11,6 @@ public interface IPeriodoService {
     List<PeriodoResponseDTO> consultarPeriodos();
 
     PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo);
+
+    void excluirPeriodo(int idPeriodo);
 }

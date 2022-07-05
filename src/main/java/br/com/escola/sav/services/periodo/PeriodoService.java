@@ -59,4 +59,10 @@ public class PeriodoService implements IPeriodoService{
 
 
     }
+
+    @Override
+    public void excluirPeriodo(int idPeriodo) {
+        Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
+        periodoRepository.delete(periodo);
+    }
 }

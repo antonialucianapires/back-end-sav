@@ -63,4 +63,16 @@ public class PeriodoController {
         return new ResponseEntity<>(resultView,HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultView<Void>> excluirPeriodo(@PathVariable(name = "id") int idPeriodo) {
+        periodoService.excluirPeriodo(idPeriodo);
+
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .message("Período excluído com sucesso!")
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
+    }
+
 }
