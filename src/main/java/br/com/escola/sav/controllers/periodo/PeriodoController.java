@@ -38,8 +38,29 @@ public class PeriodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PeriodoResponseDTO>> consultarPeriodos() {
+    public ResponseEntity<ResultView<List<PeriodoResponseDTO>>> consultarPeriodos() {
         List<PeriodoResponseDTO> periodos = periodoService.consultarPeriodos();
-        return new ResponseEntity<>(periodos, HttpStatus.OK);
+
+        ResultView<List<PeriodoResponseDTO>> resultView = ResultView.<List<PeriodoResponseDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(periodos)
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultView<PeriodoResponseDTO>> atualizarPeriodo(@PathVariable(name = "id") int idPeriodo, @RequestBody PeriodoRequestDTO periodoRequestDTO) {
+
+        PeriodoResponseDTO periodoAtualizado = periodoService.atualizarPeriodo(idPeriodo, periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo());
+
+        ResultView<PeriodoResponseDTO> resultView = ResultView.<PeriodoResponseDTO>builder()
+                .status(HttpStatus.OK.value())
+                .message("Período atualizado com sucesso!")
+                .payload(periodoAtualizado)
+                .build();
+
+        return new ResponseEntity<>(resultView,HttpStatus.OK);
+    }
+
 }

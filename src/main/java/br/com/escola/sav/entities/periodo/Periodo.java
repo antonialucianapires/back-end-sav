@@ -4,6 +4,7 @@ import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.enums.periodo.TipoPeriodoEnum;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "periodos")
 @Getter
+@Setter
 public class Periodo {
 
     @Id
