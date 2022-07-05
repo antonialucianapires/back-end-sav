@@ -4,7 +4,6 @@ import br.com.escola.sav.dto.request.periodo.PeriodoRequestDTO;
 import br.com.escola.sav.dto.request.periodo.ResultView;
 import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.services.periodo.IPeriodoService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

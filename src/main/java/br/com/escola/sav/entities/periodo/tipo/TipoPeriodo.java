@@ -2,6 +2,7 @@ package br.com.escola.sav.entities.periodo.tipo;
 
 import br.com.escola.sav.entities.periodo.Periodo;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,8 +18,19 @@ public class TipoPeriodo {
     private int id;
     @Column(name = "nome_periodo", nullable = false, length = 50)
     private String nome;
+
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
+
     @OneToMany(mappedBy = "tipoPeriodo")
     private List<Periodo> periodos;
+
+    @Deprecated
+    public TipoPeriodo() {
+    }
+
+    public TipoPeriodo(String nome) {
+        this.nome = nome;
+        this.dataCriacao = new Date();
+    }
 }
