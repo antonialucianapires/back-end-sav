@@ -15,7 +15,7 @@ public class PeriodoRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1972131416413407202L;
 
-    @UniqueValue(domainClass = Periodo.class, fieldName = "nome")
+    @UniqueValue(domainClass = Periodo.class, fieldName = "nome", message = "Já existe um período com este nome")
     private String nomePeriodo;
     private int tipoPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
