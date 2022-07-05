@@ -4,6 +4,7 @@ import br.com.escola.sav.dto.request.periodo.PeriodoRequestDTO;
 import br.com.escola.sav.dto.request.periodo.ResultView;
 import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.services.periodo.IPeriodoService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +39,53 @@ public class PeriodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PeriodoResponseDTO>> consultarPeriodos() {
+    public ResponseEntity<ResultView<List<PeriodoResponseDTO>>> consultarPeriodos() {
         List<PeriodoResponseDTO> periodos = periodoService.consultarPeriodos();
-        return new ResponseEntity<>(periodos, HttpStatus.OK);
+
+        ResultView<List<PeriodoResponseDTO>> resultView = ResultView.<List<PeriodoResponseDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(periodos)
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultView<PeriodoResponseDTO>> atualizarPeriodo(@PathVariable(name = "id") int idPeriodo, @RequestBody PeriodoRequestDTO periodoRequestDTO) {
+
+        PeriodoResponseDTO periodoAtualizado = periodoService.atualizarPeriodo(idPeriodo, periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo());
+
+        ResultView<PeriodoResponseDTO> resultView = ResultView.<PeriodoResponseDTO>builder()
+                .status(HttpStatus.OK.value())
+                .message("Período atualizado com sucesso!")
+                .payload(periodoAtualizado)
+                .build();
+
+        return new ResponseEntity<>(resultView,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultView<Void>> excluirPeriodo(@PathVariable(name = "id") int idPeriodo) {
+        periodoService.excluirPeriodo(idPeriodo);
+
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .message("Período excluído com sucesso!")
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultView<PeriodoResponseDTO>> recuperarPeriodoPorId(@PathVariable(name = "id") int idPeriodo) {
+        PeriodoResponseDTO periodoResponseDTO = periodoService.recuperarPeriodoPorId(idPeriodo);
+
+        ResultView<PeriodoResponseDTO> resultView = ResultView.<PeriodoResponseDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(periodoResponseDTO)
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
+    }
+
 }

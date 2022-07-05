@@ -1,6 +1,7 @@
 package br.com.escola.sav.exception.handler;
 
 import br.com.escola.sav.dto.request.periodo.ResultView;
+import br.com.escola.sav.exception.ObjectNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,17 @@ public class RestExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(resultView,HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ObjectNotFound.class)
+    public ResponseEntity<ResultView<Void>> handle(ObjectNotFound objectNotFound) {
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(objectNotFound.getMessage())
+                .build();
+
+        return new ResponseEntity<>(resultView,HttpStatus.NOT_FOUND);
     }
 
 }

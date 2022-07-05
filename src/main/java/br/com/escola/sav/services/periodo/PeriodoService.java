@@ -41,4 +41,34 @@ public class PeriodoService implements IPeriodoService{
     public List<PeriodoResponseDTO> consultarPeriodos() {
         return periodoRepository.findAll().stream().map(PeriodoResponseDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo) {
+
+        TipoPeriodo tipoPeriodoEntity = tipoPeriodoRepository.findById(tipoPeriodo).orElseThrow(() -> new ObjectNotFound("Não encontramos o tipo de período informado"));
+        Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período solicitado não existe"));
+
+        periodo.setNome(nomePeriodo);
+        periodo.setDataInicio(dataInicio);
+        periodo.setDataFim(dataFim);
+        periodo.setTipoPeriodo(tipoPeriodoEntity);
+
+        Periodo periodoAtualizado = periodoRepository.saveAndFlush(periodo);
+
+        return new PeriodoResponseDTO(periodoAtualizado);
+
+
+    }
+
+    @Override
+    public void excluirPeriodo(int idPeriodo) {
+        Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
+        periodoRepository.delete(periodo);
+    }
+
+    @Override
+    public PeriodoResponseDTO recuperarPeriodoPorId(int idPeriodo) {
+        Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
+        return new PeriodoResponseDTO(periodo);
+    }
 }

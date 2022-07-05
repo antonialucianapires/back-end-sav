@@ -19,10 +19,10 @@ public class PeriodoResponseDTO implements Serializable {
     private static final long serialVersionUID = 3727934978388786874L;
 
     private int id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private String nomePeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataInicio;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataFim;
 
     public PeriodoResponseDTO(Periodo periodo) {
