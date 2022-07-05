@@ -2,16 +2,15 @@ package br.com.escola.sav.controllers.periodo.tipo;
 
 import br.com.escola.sav.dto.request.periodo.ResultView;
 import br.com.escola.sav.dto.request.periodo.tipo.TipoPeriodoRequestDTO;
+import br.com.escola.sav.dto.response.periodo.tipo.TipoPeriodoResponseDTO;
 import br.com.escola.sav.services.periodo.tipo.ITipoPeriodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/periodos/tipos")
@@ -35,4 +34,19 @@ public class TipoPeriodoController {
 
         return new ResponseEntity<>(resultView, HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<ResultView<List<TipoPeriodoResponseDTO>>> recuperarTiposDePeriodo() {
+
+        List<TipoPeriodoResponseDTO> tiposDePeriodo = tipoPeriodoService.listarPeriodos();
+
+        ResultView<List<TipoPeriodoResponseDTO>> resultView = ResultView.<List<TipoPeriodoResponseDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(tiposDePeriodo)
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
+    }
+
+
 }
