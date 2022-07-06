@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("/periodos/subperiodos")
+@RequestMapping("/periodos")
 public class SubperiodoController {
 
     private final ISubperiodoService subperiodoService;
@@ -22,7 +23,7 @@ public class SubperiodoController {
         this.subperiodoService = subperiodoService;
     }
 
-    @PostMapping
+    @PostMapping("/subperiodos")
     public ResponseEntity<ResultView<Void>> criarSubperiodo(@RequestBody @Valid SubperiodoRequestDTO subperiodoRequestDTO) {
         subperiodoService.criarSubperiodo(subperiodoRequestDTO.getNomeSubperiodo(),subperiodoRequestDTO.getCodigoPeriodo(),subperiodoRequestDTO.getDataInicio(), subperiodoRequestDTO.getDataFim());
 
@@ -34,7 +35,7 @@ public class SubperiodoController {
         return new ResponseEntity<>(resultView,HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/subperiodos/{id}")
     public ResponseEntity<ResultView<SubperiodoResponseDTO>> atualizarSubperiodo(@PathVariable(name = "id") int idSubperiodo, @RequestBody @Valid SubperiodoRequestDTO subperiodoRequestDTO) {
         SubperiodoResponseDTO subperiodoResponseDTO = subperiodoService.atualizarSubperiodo(idSubperiodo, subperiodoRequestDTO.getNomeSubperiodo(), subperiodoRequestDTO.getCodigoPeriodo(), subperiodoRequestDTO.getDataInicio(), subperiodoRequestDTO.getDataFim());
 
@@ -45,6 +46,18 @@ public class SubperiodoController {
                 .build();
 
         return new ResponseEntity<>(resultView,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id_periodo}/subperiodos")
+    public ResponseEntity<ResultView<List<SubperiodoResponseDTO>>> recuperarSubperiodosPorPeriodo(@PathVariable(name = "id_periodo") int idPeriodo) {
+        List<SubperiodoResponseDTO> subperiodos = subperiodoService.listarSubperiodosPorPeriodo(idPeriodo);
+
+        ResultView<List<SubperiodoResponseDTO>> resultView = ResultView.<List<SubperiodoResponseDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(subperiodos)
+                .build();
+
+        return new ResponseEntity<>(resultView,HttpStatus.OK);
     }
 
 }

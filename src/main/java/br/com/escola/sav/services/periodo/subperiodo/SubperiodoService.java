@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubperiodoService implements ISubperiodoService{
@@ -49,5 +51,11 @@ public class SubperiodoService implements ISubperiodoService{
         subperiodoRepository.save(subPeriodo);
 
         return new SubperiodoResponseDTO(subPeriodo);
+    }
+
+    @Override
+    public List<SubperiodoResponseDTO> listarSubperiodosPorPeriodo(int idPeriodo) {
+        List<SubPeriodo> subperiodos =  subperiodoRepository.findByPeriodoId(idPeriodo);
+        return subperiodos.stream().map(SubperiodoResponseDTO::new).collect(Collectors.toList());
     }
 }
