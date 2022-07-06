@@ -38,7 +38,7 @@ public class TipoPeriodoController {
     @GetMapping
     public ResponseEntity<ResultView<List<TipoPeriodoResponseDTO>>> recuperarTiposDePeriodo() {
 
-        List<TipoPeriodoResponseDTO> tiposDePeriodo = tipoPeriodoService.listarPeriodos();
+        List<TipoPeriodoResponseDTO> tiposDePeriodo = tipoPeriodoService.listarTipoPeriodos();
 
         ResultView<List<TipoPeriodoResponseDTO>> resultView = ResultView.<List<TipoPeriodoResponseDTO>>builder()
                 .status(HttpStatus.OK.value())

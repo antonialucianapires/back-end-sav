@@ -7,5 +7,5 @@ import java.util.List;
 public interface ITipoPeriodoService {
     void criarTipoPeriodo(String nome);
 
-    List<TipoPeriodoResponseDTO> listarPeriodos();
+    List<TipoPeriodoResponseDTO> listarTipoPeriodos();
 }

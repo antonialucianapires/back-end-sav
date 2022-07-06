@@ -27,7 +27,7 @@ public class TipoPeriodoService implements ITipoPeriodoService{
     }
 
     @Override
-    public List<TipoPeriodoResponseDTO> listarPeriodos() {
+    public List<TipoPeriodoResponseDTO> listarTipoPeriodos() {
         return tipoPeriodoRepository.findAll().stream().map(TipoPeriodoResponseDTO::new).collect(Collectors.toList());
     }
 }
