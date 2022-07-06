@@ -25,4 +25,15 @@ public class SubPeriodo {
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
 
+    @Deprecated
+    public SubPeriodo() {
+    }
+
+    public SubPeriodo(String nomeSubperiodo, Periodo periodo, Date dataInicio, Date dataFim) {
+        this.periodo = periodo;
+        this.nome = nomeSubperiodo;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.dataCriacao = new Date();
+    }
 }
