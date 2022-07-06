@@ -4,6 +4,7 @@ import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.repositories.periodo.PeriodoRepository;
 import br.com.escola.sav.repositories.periodo.tipo.TipoPeriodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,11 @@ public class PeriodoService implements IPeriodoService{
     @Override
     public void excluirPeriodo(int idPeriodo) {
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
+
+        if(!periodo.getSubperiodos().isEmpty()) {
+            throw new SavException("Este período possui subperíodos. Realize a exclusão dos subperíodos e tente novamente.");
+        }
+
         periodoRepository.delete(periodo);
     }
 
