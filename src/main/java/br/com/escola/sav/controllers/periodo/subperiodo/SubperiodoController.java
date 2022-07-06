@@ -60,4 +60,16 @@ public class SubperiodoController {
         return new ResponseEntity<>(resultView,HttpStatus.OK);
     }
 
+    @DeleteMapping("/subperiodos/{id}")
+    public ResponseEntity<ResultView<Void>> excluirSubperiodo(@PathVariable(name = "id") int idSubperiodo) {
+        subperiodoService.excluirSubperiodo(idSubperiodo);
+
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .message("Subperíodo excluído com sucesso")
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.OK);
+    }
+
 }

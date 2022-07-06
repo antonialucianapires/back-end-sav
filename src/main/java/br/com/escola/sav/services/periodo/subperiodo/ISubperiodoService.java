@@ -11,4 +11,6 @@ public interface ISubperiodoService {
     SubperiodoResponseDTO atualizarSubperiodo(int idSubperiodo, String nomeSubperiodo, int codigoPeriodo, Date dataInicio, Date dataFim);
 
     List<SubperiodoResponseDTO> listarSubperiodosPorPeriodo(int idPeriodo);
+
+    void excluirSubperiodo(int idSubperiodo);
 }

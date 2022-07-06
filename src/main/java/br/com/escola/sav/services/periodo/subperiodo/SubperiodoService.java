@@ -58,4 +58,12 @@ public class SubperiodoService implements ISubperiodoService{
         List<SubPeriodo> subperiodos =  subperiodoRepository.findByPeriodoId(idPeriodo);
         return subperiodos.stream().map(SubperiodoResponseDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public void excluirSubperiodo(int idSubperiodo) {
+
+        SubPeriodo subPeriodo = subperiodoRepository.findById(idSubperiodo).orElseThrow(() -> new ObjectNotFound("Subperíodo não encontrado"));
+
+        subperiodoRepository.delete(subPeriodo);
+    }
 }
