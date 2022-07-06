@@ -2,12 +2,14 @@ package br.com.escola.sav.entities.periodo.subperiodo;
 
 import br.com.escola.sav.entities.periodo.Periodo;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 @Entity
 @Table(name = "subperiodos")
 @Getter
+@Setter
 public class SubPeriodo {
 
     @Id
