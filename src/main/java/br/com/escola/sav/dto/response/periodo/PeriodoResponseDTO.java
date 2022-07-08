@@ -48,7 +48,7 @@ public class PeriodoResponseDTO implements Serializable {
         Interval intervalo = new Interval(new DateTime(dataInicio), new DateTime(dataFim));
 
         if (intervalo.containsNow()) {
-            statusPeriodo = "em andamento";
+            statusPeriodo = "andamento";
         } else if (dataAtual.before(dataInicio)) {
             statusPeriodo = "não iniciado";
         } else if (dataAtual.after(dataFim)) {
