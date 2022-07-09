@@ -14,5 +14,5 @@ public interface IPeriodoService {
 
     void excluirPeriodo(int idPeriodo);
 
-    PeriodoResponseDTO recuperarPeriodoPorId(int idPeriodo);
+    PeriodoResponseDTO recuperarPeriodoPorId(int idPeriodo, boolean comSubperiodos);
 }

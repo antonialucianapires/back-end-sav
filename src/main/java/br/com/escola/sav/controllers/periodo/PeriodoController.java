@@ -77,8 +77,8 @@ public class PeriodoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultView<PeriodoResponseDTO>> recuperarPeriodoPorId(@PathVariable(name = "id") int idPeriodo) {
-        PeriodoResponseDTO periodoResponseDTO = periodoService.recuperarPeriodoPorId(idPeriodo);
+    public ResponseEntity<ResultView<PeriodoResponseDTO>> recuperarPeriodoPorId(@PathVariable(name = "id") int idPeriodo, @RequestParam (name = "com_subperiodos",required = false, defaultValue = "false") boolean comSubperiodos) {
+        PeriodoResponseDTO periodoResponseDTO = periodoService.recuperarPeriodoPorId(idPeriodo, comSubperiodos);
 
         ResultView<PeriodoResponseDTO> resultView = ResultView.<PeriodoResponseDTO>builder()
                 .status(HttpStatus.OK.value())

@@ -28,6 +28,8 @@ public class PeriodoResponseDTO implements Serializable {
 
     private int id;
     private String nomePeriodo;
+
+    private String tipoPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataInicio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
@@ -51,6 +53,7 @@ public class PeriodoResponseDTO implements Serializable {
         this.dataInicio = periodo.getDataInicio();
         this.dataFim = periodo.getDataFim();
         this.status = gerarStatus();
+        this.tipoPeriodo = periodo.getTipoPeriodo().getNome();
 
         if(comSubperiodos) {
             this.subperiodos = periodo.getSubperiodos().stream().map(SubperiodoResponseDTO::new).collect(Collectors.toList());

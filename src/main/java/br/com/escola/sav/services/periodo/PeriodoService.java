@@ -73,8 +73,8 @@ public class PeriodoService implements IPeriodoService{
     }
 
     @Override
-    public PeriodoResponseDTO recuperarPeriodoPorId(int idPeriodo) {
+    public PeriodoResponseDTO recuperarPeriodoPorId(int idPeriodo, boolean comSubperiodos) {
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
-        return new PeriodoResponseDTO(periodo);
+        return new PeriodoResponseDTO(periodo, comSubperiodos);
     }
 }
