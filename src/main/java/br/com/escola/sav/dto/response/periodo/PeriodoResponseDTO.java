@@ -1,5 +1,6 @@
 package br.com.escola.sav.dto.response.periodo;
 
+import br.com.escola.sav.dto.response.periodo.subperiodo.SubperiodoResponseDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,7 +12,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -31,12 +35,28 @@ public class PeriodoResponseDTO implements Serializable {
 
     private String status;
 
+    private List<SubperiodoResponseDTO> subperiodos = new ArrayList<>();
+
     public PeriodoResponseDTO(Periodo periodo) {
         this.id = periodo.getId();
         this.nomePeriodo = periodo.getNome();
         this.dataInicio = periodo.getDataInicio();
         this.dataFim = periodo.getDataFim();
         this.status = gerarStatus();
+    }
+
+    public PeriodoResponseDTO(Periodo periodo, boolean comSubperiodos) {
+        this.id = periodo.getId();
+        this.nomePeriodo = periodo.getNome();
+        this.dataInicio = periodo.getDataInicio();
+        this.dataFim = periodo.getDataFim();
+        this.status = gerarStatus();
+
+        if(comSubperiodos) {
+            this.subperiodos = periodo.getSubperiodos().stream().map(SubperiodoResponseDTO::new).collect(Collectors.toList());
+        } else {
+            this.subperiodos = null;
+        }
     }
 
     private String gerarStatus() {

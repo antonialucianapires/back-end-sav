@@ -8,7 +8,7 @@ import java.util.List;
 public interface IPeriodoService {
     void criarPeriodo(String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo);
 
-    List<PeriodoResponseDTO> consultarPeriodos();
+    List<PeriodoResponseDTO> consultarPeriodos(boolean comSubperiodos);
 
     PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo);
 

@@ -38,8 +38,9 @@ public class PeriodoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResultView<List<PeriodoResponseDTO>>> consultarPeriodos() {
-        List<PeriodoResponseDTO> periodos = periodoService.consultarPeriodos();
+    public ResponseEntity<ResultView<List<PeriodoResponseDTO>>> consultarPeriodos(@RequestParam (name = "com_subperiodos",required = false, defaultValue = "false") boolean comSubperiodos) {
+
+        List<PeriodoResponseDTO> periodos = periodoService.consultarPeriodos(comSubperiodos);
 
         ResultView<List<PeriodoResponseDTO>> resultView = ResultView.<List<PeriodoResponseDTO>>builder()
                 .status(HttpStatus.OK.value())

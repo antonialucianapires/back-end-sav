@@ -39,8 +39,8 @@ public class PeriodoService implements IPeriodoService{
     }
 
     @Override
-    public List<PeriodoResponseDTO> consultarPeriodos() {
-        return periodoRepository.findAll().stream().map(PeriodoResponseDTO::new).collect(Collectors.toList());
+    public List<PeriodoResponseDTO> consultarPeriodos(boolean comSubperiodos) {
+        return periodoRepository.findAll().stream().map(periodo -> new PeriodoResponseDTO(periodo, comSubperiodos)).collect(Collectors.toList());
     }
 
     @Override
