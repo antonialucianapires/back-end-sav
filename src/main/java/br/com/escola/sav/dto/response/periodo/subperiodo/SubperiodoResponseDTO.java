@@ -19,9 +19,9 @@ public class SubperiodoResponseDTO implements Serializable {
     private static final long serialVersionUID = -3112431951813704717L;
     private int id;
     private String nomeSubperiodo;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dataInicio;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dataFim;
     
     public SubperiodoResponseDTO(SubPeriodo subPeriodo) {
