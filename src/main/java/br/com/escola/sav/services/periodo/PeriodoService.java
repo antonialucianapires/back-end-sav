@@ -7,6 +7,7 @@ import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.repositories.periodo.PeriodoRepository;
 import br.com.escola.sav.repositories.periodo.tipo.TipoPeriodoRepository;
+import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,13 @@ public class PeriodoService implements IPeriodoService{
     private final TipoPeriodoRepository tipoPeriodoRepository;
     private final PeriodoRepository periodoRepository;
 
+    private final ISubperiodoService subperiodoService;
+
     @Autowired
-    public PeriodoService(TipoPeriodoRepository tipoPeriodoRepository, PeriodoRepository periodoRepository) {
+    public PeriodoService(TipoPeriodoRepository tipoPeriodoRepository, PeriodoRepository periodoRepository, ISubperiodoService subperiodoService) {
         this.tipoPeriodoRepository = tipoPeriodoRepository;
         this.periodoRepository = periodoRepository;
+        this.subperiodoService = subperiodoService;
     }
 
     @Override
@@ -66,7 +70,7 @@ public class PeriodoService implements IPeriodoService{
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
 
         if(!periodo.getSubperiodos().isEmpty()) {
-            throw new SavException("Este período possui subperíodos. Realize a exclusão dos subperíodos e tente novamente.");
+            subperiodoService.excluirSubperiodos(periodo.getSubperiodos());
         }
 
         periodoRepository.delete(periodo);

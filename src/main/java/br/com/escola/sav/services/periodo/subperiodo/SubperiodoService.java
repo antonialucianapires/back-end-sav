@@ -66,4 +66,9 @@ public class SubperiodoService implements ISubperiodoService{
 
         subperiodoRepository.delete(subPeriodo);
     }
+
+    @Override
+    public void excluirSubperiodos(List<SubPeriodo> subperiodos) {
+        subperiodoRepository.deleteAll(subperiodos);
+    }
 }
