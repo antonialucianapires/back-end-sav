@@ -19,7 +19,7 @@ public class SubperiodoRequestDTO implements Serializable {
 
     @UniqueValue(domainClass = Periodo.class, fieldName = "nome", message = "Já existe um Subperíodo com este nome")
     private String nomeSubperiodo;
-    private int codigoPeriodo;
+    private Integer codigoPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dataInicio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

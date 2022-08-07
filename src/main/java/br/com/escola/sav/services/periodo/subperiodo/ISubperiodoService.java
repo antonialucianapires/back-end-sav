@@ -3,6 +3,7 @@ package br.com.escola.sav.services.periodo.subperiodo;
 import br.com.escola.sav.dto.response.periodo.subperiodo.SubperiodoResponseDTO;
 import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ISubperiodoService {
     void excluirSubperiodo(int idSubperiodo);
 
     void excluirSubperiodos(List<SubPeriodo> subperiodos);
+
+    void criarSubperiodos(ArrayList<SubPeriodo> subperiodosEntities);
 }

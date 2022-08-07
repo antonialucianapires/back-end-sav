@@ -1,5 +1,6 @@
 package br.com.escola.sav.dto.request.periodo;
 
+import br.com.escola.sav.dto.request.periodo.subperiodo.SubperiodoRequestDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.util.validador.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,6 +8,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,5 +24,6 @@ public class PeriodoRequestDTO implements Serializable {
     private Date dataInicio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dataFim;
+    private List<SubperiodoRequestDTO> subperiodos;
 
 }
