@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/periodos")
-@CrossOrigin
 public class PeriodoController {
 
     private final IPeriodoService periodoService;
