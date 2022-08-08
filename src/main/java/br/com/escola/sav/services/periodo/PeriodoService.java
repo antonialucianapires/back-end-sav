@@ -1,15 +1,18 @@
 package br.com.escola.sav.services.periodo;
 
+import br.com.escola.sav.dto.request.periodo.subperiodo.SubperiodoRequestDTO;
 import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
+import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
-import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.repositories.periodo.PeriodoRepository;
 import br.com.escola.sav.repositories.periodo.tipo.TipoPeriodoRepository;
+import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,20 +23,31 @@ public class PeriodoService implements IPeriodoService{
     private final TipoPeriodoRepository tipoPeriodoRepository;
     private final PeriodoRepository periodoRepository;
 
+    private final ISubperiodoService subperiodoService;
+
     @Autowired
-    public PeriodoService(TipoPeriodoRepository tipoPeriodoRepository, PeriodoRepository periodoRepository) {
+    public PeriodoService(TipoPeriodoRepository tipoPeriodoRepository, PeriodoRepository periodoRepository, ISubperiodoService subperiodoService) {
         this.tipoPeriodoRepository = tipoPeriodoRepository;
         this.periodoRepository = periodoRepository;
+        this.subperiodoService = subperiodoService;
     }
 
     @Override
-    public void criarPeriodo(String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo) {
+    public void criarPeriodo(String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo, List<SubperiodoRequestDTO> subperiodos) {
 
         TipoPeriodo tipoPeriodoEntity = tipoPeriodoRepository.findById(tipoPeriodo).orElseThrow(() -> new ObjectNotFound("Não encontramos o tipo de período informado"));
 
         Periodo novoPeriodo = new Periodo(nomePeriodo,dataInicio,dataFim,tipoPeriodoEntity);
 
+        var subperiodosEntities = new ArrayList<SubPeriodo>();
+        if(!subperiodos.isEmpty()) {
+            subperiodos.forEach(sub -> {
+                subperiodosEntities.add(new SubPeriodo(sub.getNomeSubperiodo(), novoPeriodo, sub.getDataInicio(), sub.getDataFim()));
+            });
+        }
+
         periodoRepository.save(novoPeriodo);
+        subperiodoService.criarSubperiodos(subperiodosEntities);
 
 
     }
@@ -66,7 +80,7 @@ public class PeriodoService implements IPeriodoService{
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
 
         if(!periodo.getSubperiodos().isEmpty()) {
-            throw new SavException("Este período possui subperíodos. Realize a exclusão dos subperíodos e tente novamente.");
+            subperiodoService.excluirSubperiodos(periodo.getSubperiodos());
         }
 
         periodoRepository.delete(periodo);

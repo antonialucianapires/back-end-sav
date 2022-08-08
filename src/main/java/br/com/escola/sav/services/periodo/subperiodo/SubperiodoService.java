@@ -9,6 +9,7 @@ import br.com.escola.sav.repositories.periodo.subperiodo.SubperiodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,5 +66,15 @@ public class SubperiodoService implements ISubperiodoService{
         SubPeriodo subPeriodo = subperiodoRepository.findById(idSubperiodo).orElseThrow(() -> new ObjectNotFound("Subperíodo não encontrado"));
 
         subperiodoRepository.delete(subPeriodo);
+    }
+
+    @Override
+    public void excluirSubperiodos(List<SubPeriodo> subperiodos) {
+        subperiodoRepository.deleteAll(subperiodos);
+    }
+
+    @Override
+    public void criarSubperiodos(ArrayList<SubPeriodo> subperiodosEntities) {
+        subperiodoRepository.saveAll(subperiodosEntities);
     }
 }

@@ -26,7 +26,7 @@ public class PeriodoController {
     @PostMapping
     public ResponseEntity<ResultView<Void>> criarPeriodo(@RequestBody @Valid PeriodoRequestDTO periodoRequestDTO) {
 
-        periodoService.criarPeriodo(periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo());
+        periodoService.criarPeriodo(periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo(), periodoRequestDTO.getSubperiodos());
 
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.CREATED.value())

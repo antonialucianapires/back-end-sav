@@ -20,7 +20,7 @@ public class RestExceptionHandler {
     public ResponseEntity<ResultView<Void>> handle(Exception exception) {
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(exception.getMessage())
+                .message("Falha ao realizar operação.")
                 .build();
 
         return new ResponseEntity<>(resultView,HttpStatus.BAD_REQUEST);
