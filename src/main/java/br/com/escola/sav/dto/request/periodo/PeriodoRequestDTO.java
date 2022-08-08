@@ -22,8 +22,8 @@ public class PeriodoRequestDTO implements Serializable {
     @NotBlank(message = "nome do período não pode ser vazio")
     @UniqueValue(domainClass = Periodo.class, fieldName = "nome", message = "Já existe um período com este nome")
     private String nomePeriodo;
-    @NotBlank(message = "tipo do período não pode ser vazio")
-    private int tipoPeriodo;
+    @NotNull(message = "tipo do período não pode ser vazio")
+    private Integer tipoPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "data de início não pode ser vazia")
     private Date dataInicio;
