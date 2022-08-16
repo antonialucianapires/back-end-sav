@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
 
+    public static final Logger logger = Logger.getLogger(RestExceptionHandler.class.getName());
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResultView<Void>> handle(Exception exception) {
+        logger.info(exception.getMessage());
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("Falha ao realizar operação.")
@@ -28,6 +32,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(SavException.class)
     public ResponseEntity<ResultView<Void>> handle(SavException savException) {
+        logger.info(savException.getMessage());
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(savException.getMessage())
@@ -38,6 +43,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(ObjectNotFound.class)
     public ResponseEntity<ResultView<Void>> handle(ObjectNotFound objectNotFound) {
+        logger.info(objectNotFound.getMessage());
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(objectNotFound.getMessage())
@@ -60,6 +66,7 @@ public class RestExceptionHandler {
             errors.add(error);
         });
 
+        logger.info(methodArgumentNotValidException.getMessage());
         ResultView<List<Error>> resultView = ResultView.<List<Error>>builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message("Existem valores de entrada inválidos")
