@@ -4,6 +4,10 @@ import br.com.escola.sav.entities.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface IUsuarioService {
-    Page<Usuario> findAll(Pageable pageable);
+    Page<Usuario> listarTodosUsuarios(Pageable pageable);
+
+    Optional<Usuario> buscarUsuarioPorId(Long id);
 }
