@@ -24,4 +24,19 @@ public class UsuarioService implements IUsuarioService{
     public Optional<Usuario> buscarUsuarioPorId(Long id) {
         return usuarioRepository.findById(id);
     }
+
+    @Override
+    public boolean existeMatricula(String matricula) {
+        return usuarioRepository.existsByMatricula(matricula);
+    }
+
+    @Override
+    public boolean existeEmail(String email) {
+        return usuarioRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void registrar(Usuario usuario) {
+        usuarioRepository.save(usuario);
+    }
 }

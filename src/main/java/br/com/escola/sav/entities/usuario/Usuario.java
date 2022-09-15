@@ -38,7 +38,7 @@ public class Usuario {
     private TipoUsuario tipoUsuario;
 
     @Column
-    private String imageUrl;
+    private String urlImagem;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

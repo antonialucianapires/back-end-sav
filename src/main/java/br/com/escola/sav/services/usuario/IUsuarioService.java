@@ -10,4 +10,10 @@ public interface IUsuarioService {
     Page<Usuario> listarTodosUsuarios(Pageable pageable);
 
     Optional<Usuario> buscarUsuarioPorId(Long id);
+
+    boolean existeMatricula(String matricula);
+
+    boolean existeEmail(String email);
+
+    void registrar(Usuario usuario);
 }
