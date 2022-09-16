@@ -17,13 +17,13 @@ public class UsuarioService implements IUsuarioService{
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public Page<Usuario> listarTodosUsuarios(Pageable pageable) {
-        return usuarioRepository.findAll(pageable);
+    public Page<Usuario> listarTodosUsuarios(Pageable pageable, StatusUsuario statusUsuario) {
+        return usuarioRepository.findAllByStatusUsuario(statusUsuario,pageable);
     }
 
     @Override
-    public Optional<Usuario> buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id);
+    public Optional<Usuario> buscarUsuarioPorStatusEId(StatusUsuario statusUsuario,Long id) {
+        return usuarioRepository.findByIdAndStatusUsuario(id, statusUsuario);
     }
 
     @Override
@@ -42,8 +42,13 @@ public class UsuarioService implements IUsuarioService{
     }
 
     @Override
-    public void inativarUsuario(Usuario usuario) {
-        usuario.setStatusUsuario(StatusUsuario.INATIVO);
+    public void alterarStatusUsuario(Usuario usuario, StatusUsuario statusUsuario) {
+        usuario.setStatusUsuario(statusUsuario);
         usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public Optional<Usuario> buscarUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id);
     }
 }

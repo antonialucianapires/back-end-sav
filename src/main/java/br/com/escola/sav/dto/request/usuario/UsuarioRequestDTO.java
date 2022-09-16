@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -17,8 +18,11 @@ public class UsuarioRequestDTO {
         interface AtualizarUsuarioPut {}
         interface AtualizarSenhaPut {}
         interface AtualizarImagemPut {}
+        interface AtualizarStatusUsuario {}
     }
 
+    @NotNull(groups = UsuarioView.AtualizarStatusUsuario.class)
+    @JsonView(UsuarioView.AtualizarStatusUsuario.class)
     private Long id;
 
     @NotBlank(groups = UsuarioView.RegistrarUsuarioPost.class)
@@ -48,5 +52,9 @@ public class UsuarioRequestDTO {
     @NotBlank(groups = UsuarioView.AtualizarImagemPut.class)
     @JsonView(UsuarioView.AtualizarImagemPut.class)
     private String urlImagem;
+
+    @NotBlank(groups = UsuarioView.AtualizarStatusUsuario.class)
+    @JsonView(UsuarioView.AtualizarStatusUsuario.class)
+    private String status;
 
 }
