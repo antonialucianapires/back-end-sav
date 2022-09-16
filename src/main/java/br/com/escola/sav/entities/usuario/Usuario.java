@@ -1,5 +1,6 @@
 package br.com.escola.sav.entities.usuario;
 
+import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.enums.usuario.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,10 @@ public class Usuario {
 
     @Column
     private String urlImagem;
+
+    @Column(nullable = false, name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusUsuario statusUsuario;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

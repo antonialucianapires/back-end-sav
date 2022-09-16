@@ -1,6 +1,7 @@
 package br.com.escola.sav.services.usuario;
 
 import br.com.escola.sav.entities.usuario.Usuario;
+import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.repositories.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,12 @@ public class UsuarioService implements IUsuarioService{
 
     @Override
     public void registrar(Usuario usuario) {
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void inativarUsuario(Usuario usuario) {
+        usuario.setStatusUsuario(StatusUsuario.INATIVO);
         usuarioRepository.save(usuario);
     }
 }

@@ -3,6 +3,7 @@ package br.com.escola.sav.controllers.usuario.autenticacao;
 import br.com.escola.sav.dto.request.periodo.ResultView;
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.entities.usuario.Usuario;
+import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.enums.usuario.TipoUsuario;
 import br.com.escola.sav.services.usuario.IUsuarioService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -44,6 +45,7 @@ public class UsuarioAutenticacaoController {
         var usuario = new Usuario();
         BeanUtils.copyProperties(usuarioRequestDTO, usuario);
         usuario.setTipoUsuario(TipoUsuario.ESTUDANTE);
+        usuario.setStatusUsuario(StatusUsuario.ATIVO);
         usuario.setDataHoraCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 
         usuarioService.registrar(usuario);

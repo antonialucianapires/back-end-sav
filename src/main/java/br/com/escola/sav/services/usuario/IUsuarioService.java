@@ -16,4 +16,6 @@ public interface IUsuarioService {
     boolean existeEmail(String email);
 
     void registrar(Usuario usuario);
+
+    void inativarUsuario(Usuario usuario);
 }
