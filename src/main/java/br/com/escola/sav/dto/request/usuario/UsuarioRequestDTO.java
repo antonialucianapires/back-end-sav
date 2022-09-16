@@ -57,4 +57,8 @@ public class UsuarioRequestDTO {
     @JsonView(UsuarioView.AtualizarStatusUsuario.class)
     private String status;
 
+    @NotBlank(groups = UsuarioView.RegistrarUsuarioPost.class)
+    @JsonView(UsuarioView.RegistrarUsuarioPost.class)
+    private String tipo;
+
 }

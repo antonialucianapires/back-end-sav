@@ -28,7 +28,7 @@ public class UsuarioController {
     private IUsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> getAllUsers(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(defaultValue = "ATIVO", name = "status") StatusUsuario statusUsuario) {
+    public ResponseEntity<ResponsePattern> listarUsuarios(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(defaultValue = "ATIVO", name = "status") StatusUsuario statusUsuario) {
 
         Page<Usuario> userModelPage = usuarioService.listarTodosUsuarios(pageable, statusUsuario);
 

@@ -44,7 +44,7 @@ public class UsuarioAutenticacaoController {
 
         var usuario = new Usuario();
         BeanUtils.copyProperties(usuarioRequestDTO, usuario);
-        usuario.setTipoUsuario(TipoUsuario.ESTUDANTE);
+        usuario.setTipoUsuario(TipoUsuario.valueOf(usuarioRequestDTO.getTipo()));
         usuario.setStatusUsuario(StatusUsuario.ATIVO);
         usuario.setDataHoraCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 
