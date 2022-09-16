@@ -1,6 +1,6 @@
 package br.com.escola.sav.controllers.usuario.autenticacao;
 
-import br.com.escola.sav.dto.request.periodo.ResultView;
+import br.com.escola.sav.dto.request.compartilhado.ResultView;
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.entities.usuario.Usuario;
 import br.com.escola.sav.enums.usuario.StatusUsuario;

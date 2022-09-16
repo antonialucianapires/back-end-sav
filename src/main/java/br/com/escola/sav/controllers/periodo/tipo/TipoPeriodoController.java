@@ -1,6 +1,6 @@
 package br.com.escola.sav.controllers.periodo.tipo;
 
-import br.com.escola.sav.dto.request.periodo.ResultView;
+import br.com.escola.sav.dto.request.compartilhado.ResultView;
 import br.com.escola.sav.dto.request.periodo.tipo.TipoPeriodoRequestDTO;
 import br.com.escola.sav.dto.response.periodo.tipo.TipoPeriodoResponseDTO;
 import br.com.escola.sav.services.periodo.tipo.ITipoPeriodoService;

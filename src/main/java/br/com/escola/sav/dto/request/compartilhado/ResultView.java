@@ -1,4 +1,4 @@
-package br.com.escola.sav.dto.request.periodo;
+package br.com.escola.sav.dto.request.compartilhado;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
