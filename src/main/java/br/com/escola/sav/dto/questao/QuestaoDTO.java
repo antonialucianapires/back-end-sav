@@ -35,6 +35,6 @@ public class QuestaoDTO implements Serializable {
     @NotBlank(groups = {QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class})
     @JsonView({QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class})
     private String nivel;
-    @JsonView({QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class})
+    @JsonView({QuestaoView.CriarQuestao.class})
     List<ItemQuestaoDTO> itensQuestao = new ArrayList<>();
 }

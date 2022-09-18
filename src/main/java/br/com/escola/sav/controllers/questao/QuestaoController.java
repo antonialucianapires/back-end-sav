@@ -101,4 +101,22 @@ public class QuestaoController {
                 .build());
     }
 
+    @PutMapping
+    public ResponseEntity<ResponsePattern> atualizarQuestao(@RequestBody @Validated(QuestaoDTO.QuestaoView.AtualizarQuestao.class) @JsonView(QuestaoDTO.QuestaoView.AtualizarQuestao.class) QuestaoDTO questaoDTO) {
+        var questao = questaoService.buscarPorId(questaoDTO.getId());
+        var tipoQuestao = tipoQuestaoService.buscarTipoQuestaoPorId(questaoDTO.getTipoQuestao());
+
+        questao.setTitulo(questaoDTO.getTitulo());
+        questao.setEnunciado(questaoDTO.getEnunciado());
+        questao.setNivelQuestao(NivelQuestao.valueOf(questaoDTO.getNivel()));
+        questao.setTipoQuestao(tipoQuestao);
+
+        questaoService.criarQuestao(questao);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                        .message("Questão atualizada com sucesso")
+                .payload(questao)
+                .build());
+
+    }
 }
