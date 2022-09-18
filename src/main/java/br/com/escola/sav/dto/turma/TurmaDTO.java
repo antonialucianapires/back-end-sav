@@ -17,10 +17,12 @@ public class TurmaDTO {
         interface AtualizarTurma {}
 
         interface ExibirTurma {}
+
+        interface InscreverUsuario {}
     }
 
     @NotNull(groups = {TurmaDTO.TurmaView.AtualizarTurma.class})
-    @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
+    @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class, TurmaDTO.TurmaView.InscreverUsuario.class})
     private Long id;
     @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class, TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
     private String nome;
@@ -29,6 +31,9 @@ public class TurmaDTO {
     @NotNull(groups = {TurmaDTO.TurmaView.CriarTurma.class})
     @JsonView({TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
     private Integer idPeriodo;
+    @NotNull(groups = TurmaDTO.TurmaView.InscreverUsuario.class)
+    @JsonView(TurmaDTO.TurmaView.InscreverUsuario.class)
+    private Long idUsuario;
 
     public static TurmaDTO create(Turma turma) {
         var turmaDTO = new TurmaDTO();

@@ -54,4 +54,12 @@ public class TurmaController {
                 .build());
     }
 
+    @PostMapping("/inscricao")
+    public ResponseEntity<ResponsePattern> inscreverUsuarioNaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscreverUsuario.class) @JsonView(TurmaDTO.TurmaView.InscreverUsuario.class) TurmaDTO turmaDTO) {
+        turmaService.adicionarMatriculadoNaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder().httpCode(HttpStatus.CREATED.value())
+                        .message("Usuário foi inscrito na turma com sucesso")
+                .build());
+    }
+
 }
