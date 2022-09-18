@@ -1,5 +1,6 @@
 package br.com.escola.sav.services.turma;
 
+import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.exception.ObjectNotFound;
@@ -10,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +57,12 @@ public class TurmaService implements ITurmaService {
 
         turma.getUsuarios().remove(usuario);
         repository.save(turma);
+    }
+
+    @Override
+    public List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma) {
+        var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
+        return turma.getUsuarios().stream().map(UsuarioRequestDTO::create).collect(Collectors.toList());
     }
 
 

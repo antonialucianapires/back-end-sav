@@ -65,11 +65,17 @@ public class TurmaController {
     @DeleteMapping("/inscricao")
     public ResponseEntity<ResponsePattern> removerUsuarioDaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) @JsonView(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) TurmaDTO turmaDTO) {
         turmaService.removerMatriculadoDaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder().httpCode(HttpStatus.CREATED.value())
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
                 .message("Usuário foi removido da turma com sucesso")
                 .build());
     }
 
+    @GetMapping("/{id}/inscritos")
+    public ResponseEntity<ResponsePattern> listarInscritosNaTurma(@PathVariable("id") Long idTurma) {
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                        .payload(turmaService.listarUsuarioPorTurma(idTurma))
+                .build());
+    }
 
 
 }
