@@ -1,6 +1,7 @@
 package br.com.escola.sav.entities.periodo.tipo;
 
 import br.com.escola.sav.entities.periodo.Periodo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ public class TipoPeriodo {
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tipoPeriodo")
     private List<Periodo> periodos;
 

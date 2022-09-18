@@ -1,5 +1,6 @@
 package br.com.escola.sav.entities.usuario;
 
+import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.enums.usuario.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -48,5 +50,9 @@ public class Usuario {
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataHoraCriacao;
+
+    @ManyToMany(mappedBy = "usuarios")
+    private List<Turma> turmas;
+
 
 }
