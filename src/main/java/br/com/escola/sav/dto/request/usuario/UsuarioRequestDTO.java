@@ -1,5 +1,6 @@
 package br.com.escola.sav.dto.request.usuario;
 
+import br.com.escola.sav.entities.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -65,5 +66,16 @@ public class UsuarioRequestDTO {
     @JsonProperty("id_disciplina")
     @JsonView(UsuarioView.RegistrarUsuarioPost.class)
     private Long idDisciplina;
+
+    public static UsuarioRequestDTO create(Usuario usuario) {
+        var usuarioDTO = new UsuarioRequestDTO();
+        usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setNome(usuario.getNome());
+        usuarioDTO.setMatricula(usuarioDTO.getMatricula());
+        usuarioDTO.setTipo(usuario.getTipoUsuario().name());
+        usuarioDTO.setStatus(usuario.getStatusUsuario().name());
+        return usuarioDTO;
+    }
 
 }
