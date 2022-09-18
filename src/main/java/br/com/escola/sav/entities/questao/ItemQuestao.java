@@ -28,6 +28,7 @@ public class ItemQuestao {
     @Column
     private Character indicadorGabarito;
 
+    @JsonIgnore
     @Column(nullable = false)
     private LocalDateTime dataHoraCriacao;
 }

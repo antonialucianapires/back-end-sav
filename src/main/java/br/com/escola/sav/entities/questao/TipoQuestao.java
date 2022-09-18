@@ -21,6 +21,7 @@ public class TipoQuestao {
     @Column(nullable = false, length = 50)
     private String nome;
 
+    @JsonIgnore
     @Column(nullable = false)
     private LocalDateTime dataHoraCriacao;
 

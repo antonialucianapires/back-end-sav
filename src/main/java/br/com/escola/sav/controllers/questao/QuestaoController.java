@@ -93,4 +93,12 @@ public class QuestaoController {
                 .build());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePattern> buscarQuestaoPorId(@PathVariable("id") Long idQuestao) {
+        var questao = questaoService.buscarPorId(idQuestao);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                .payload(questao)
+                .build());
+    }
+
 }

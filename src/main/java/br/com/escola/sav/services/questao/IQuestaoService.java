@@ -8,4 +8,6 @@ public interface IQuestaoService {
     Questao criarQuestao(Questao questao);
 
     Page<Questao> listarQuestoes(Pageable pageable);
+
+    Questao buscarPorId(Long idQuestao);
 }

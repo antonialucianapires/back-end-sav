@@ -1,6 +1,7 @@
 package br.com.escola.sav.entities.questao;
 
 import br.com.escola.sav.enums.questao.NivelQuestao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class Questao {
     @Enumerated(EnumType.STRING)
     private NivelQuestao nivelQuestao;
 
+    @JsonIgnore
     @Column
     private LocalDateTime dataHoraCriacao;
 

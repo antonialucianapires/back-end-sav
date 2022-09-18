@@ -1,6 +1,7 @@
 package br.com.escola.sav.services.questao;
 
 import br.com.escola.sav.entities.questao.Questao;
+import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.repositories.questao.QuestaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,5 +22,10 @@ public class QuestaoService implements IQuestaoService{
     @Override
     public Page<Questao> listarQuestoes(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public Questao buscarPorId(Long idQuestao) {
+        return repository.findById(idQuestao).orElseThrow(() -> new ObjectNotFound("Questão não encontrada"));
     }
 }
