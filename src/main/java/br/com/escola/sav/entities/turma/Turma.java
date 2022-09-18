@@ -27,6 +27,7 @@ public class Turma {
     private String descricao;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Periodo periodo;
 
     @Column

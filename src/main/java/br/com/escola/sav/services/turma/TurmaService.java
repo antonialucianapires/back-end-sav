@@ -5,7 +5,8 @@ import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.repositories.turma.TurmaRepository;
 import br.com.escola.sav.repositories.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,12 @@ public class TurmaService implements ITurmaService {
         var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         turma.getUsuarios().add(usuario);
         repository.save(turma);
+    }
+
+    @Override
+    public Page<Turma> listarTurmas(Pageable pageable) {
+        return repository.findAll(pageable);
+
     }
 
 

@@ -8,7 +8,9 @@ import br.com.escola.sav.services.turma.ITurmaService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -44,5 +46,12 @@ public class TurmaController {
 
     }
 
+    @GetMapping
+    public ResponseEntity<ResponsePattern> listarTurmas(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        var turmas = turmaService.listarTurmas(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                .payload(turmas)
+                .build());
+    }
 
 }
