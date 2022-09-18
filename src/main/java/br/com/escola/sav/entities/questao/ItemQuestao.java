@@ -1,5 +1,6 @@
 package br.com.escola.sav.entities.questao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class ItemQuestao {
 
     @Id
@@ -19,6 +21,7 @@ public class ItemQuestao {
     @Column(nullable = false)
     private String descricao;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     private Questao questao;
 
