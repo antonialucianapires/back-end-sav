@@ -7,4 +7,6 @@ import java.util.List;
 public interface IItemQuestaoService {
 
     void salvarItens(List<ItemQuestao> itensQuestao);
+
+    void deletarItens(List<ItemQuestao> itens);
 }

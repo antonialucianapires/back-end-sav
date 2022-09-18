@@ -28,4 +28,9 @@ public class QuestaoService implements IQuestaoService{
     public Questao buscarPorId(Long idQuestao) {
         return repository.findById(idQuestao).orElseThrow(() -> new ObjectNotFound("Questão não encontrada"));
     }
+
+    @Override
+    public void deletarQuestao(Questao questao) {
+        repository.delete(questao);
+    }
 }

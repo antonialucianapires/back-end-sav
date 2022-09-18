@@ -17,4 +17,9 @@ public class ItemQuestaoService implements IItemQuestaoService{
     public void salvarItens(List<ItemQuestao> itensQuestao) {
         repository.saveAll(itensQuestao);
     }
+
+    @Override
+    public void deletarItens(List<ItemQuestao> itens) {
+        repository.deleteAll(itens);
+    }
 }

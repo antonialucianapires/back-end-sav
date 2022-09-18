@@ -119,4 +119,17 @@ public class QuestaoController {
                 .build());
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponsePattern> atualizarQuestao(@PathVariable("id") Long idQuestao) {
+        var questao = questaoService.buscarPorId(idQuestao);
+
+        itemQuestaoService.deletarItens(questao.getItens());
+
+        questaoService.deletarQuestao(questao);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                .message("Questão deletada com sucesso")
+                .build());
+    }
 }

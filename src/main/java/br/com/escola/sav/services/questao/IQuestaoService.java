@@ -10,4 +10,6 @@ public interface IQuestaoService {
     Page<Questao> listarQuestoes(Pageable pageable);
 
     Questao buscarPorId(Long idQuestao);
+
+    void deletarQuestao(Questao questao);
 }
