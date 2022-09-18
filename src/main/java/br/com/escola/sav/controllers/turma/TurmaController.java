@@ -77,5 +77,13 @@ public class TurmaController {
                 .build());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponsePattern> removerTurma(@PathVariable("id") Long idTurma) {
+        turmaService.removerTurmaPorId(idTurma);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                .message("Turma removida com sucesso")
+                .build());
+    }
+
 
 }

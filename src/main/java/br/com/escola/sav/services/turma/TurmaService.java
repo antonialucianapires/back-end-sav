@@ -65,5 +65,16 @@ public class TurmaService implements ITurmaService {
         return turma.getUsuarios().stream().map(UsuarioRequestDTO::create).collect(Collectors.toList());
     }
 
+    @Override
+    public void removerTurmaPorId(Long idTurma) {
+        var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
+
+        if(!turma.getUsuarios().isEmpty()) {
+            throw new SavException("A turma não pode ser removida por que possui inscritos. Remova os inscritos e tente novamente.");
+        }
+
+        repository.delete(turma);
+    }
+
 
 }

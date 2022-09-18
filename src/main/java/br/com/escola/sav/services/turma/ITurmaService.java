@@ -18,4 +18,6 @@ public interface ITurmaService {
     void removerMatriculadoDaTurma(Long id, Long idUsuario);
 
     List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma);
+
+    void removerTurmaPorId(Long idTurma);
 }
