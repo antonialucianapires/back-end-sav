@@ -55,11 +55,21 @@ public class TurmaController {
     }
 
     @PostMapping("/inscricao")
-    public ResponseEntity<ResponsePattern> inscreverUsuarioNaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscreverUsuario.class) @JsonView(TurmaDTO.TurmaView.InscreverUsuario.class) TurmaDTO turmaDTO) {
+    public ResponseEntity<ResponsePattern> inscreverUsuarioNaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) @JsonView(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) TurmaDTO turmaDTO) {
         turmaService.adicionarMatriculadoNaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder().httpCode(HttpStatus.CREATED.value())
                         .message("Usuário foi inscrito na turma com sucesso")
                 .build());
     }
+
+    @DeleteMapping("/inscricao")
+    public ResponseEntity<ResponsePattern> removerUsuarioDaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) @JsonView(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) TurmaDTO turmaDTO) {
+        turmaService.removerMatriculadoDaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder().httpCode(HttpStatus.CREATED.value())
+                .message("Usuário foi removido da turma com sucesso")
+                .build());
+    }
+
+
 
 }

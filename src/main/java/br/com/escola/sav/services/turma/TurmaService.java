@@ -42,5 +42,18 @@ public class TurmaService implements ITurmaService {
 
     }
 
+    @Override
+    public void removerMatriculadoDaTurma(Long idTurma, Long idUsuario) {
+        var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
+        var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
+
+        if(!turma.getUsuarios().contains(usuario)) {
+            throw new SavException("O usuário informado não foi encontrado nesta turma");
+        }
+
+        turma.getUsuarios().remove(usuario);
+        repository.save(turma);
+    }
+
 
 }

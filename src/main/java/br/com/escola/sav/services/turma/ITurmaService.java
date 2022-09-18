@@ -11,4 +11,6 @@ public interface ITurmaService {
     void adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario);
 
     Page<Turma> listarTurmas(Pageable pageable);
+
+    void removerMatriculadoDaTurma(Long id, Long idUsuario);
 }

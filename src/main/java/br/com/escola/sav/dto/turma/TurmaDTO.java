@@ -1,6 +1,5 @@
 package br.com.escola.sav.dto.turma;
 
-import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -18,11 +17,11 @@ public class TurmaDTO {
 
         interface ExibirTurma {}
 
-        interface InscreverUsuario {}
+        interface InscricaoUsuarioTurma {}
     }
 
     @NotNull(groups = {TurmaDTO.TurmaView.AtualizarTurma.class})
-    @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class, TurmaDTO.TurmaView.InscreverUsuario.class})
+    @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class, TurmaView.InscricaoUsuarioTurma.class})
     private Long id;
     @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class, TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
     private String nome;
@@ -31,8 +30,8 @@ public class TurmaDTO {
     @NotNull(groups = {TurmaDTO.TurmaView.CriarTurma.class})
     @JsonView({TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
     private Integer idPeriodo;
-    @NotNull(groups = TurmaDTO.TurmaView.InscreverUsuario.class)
-    @JsonView(TurmaDTO.TurmaView.InscreverUsuario.class)
+    @NotNull(groups = TurmaView.InscricaoUsuarioTurma.class)
+    @JsonView(TurmaView.InscricaoUsuarioTurma.class)
     private Long idUsuario;
 
     public static TurmaDTO create(Turma turma) {
