@@ -37,8 +37,8 @@ public class UsuarioService implements IUsuarioService{
     }
 
     @Override
-    public void registrar(Usuario usuario) {
-        usuarioRepository.save(usuario);
+    public Usuario registrar(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     @Override

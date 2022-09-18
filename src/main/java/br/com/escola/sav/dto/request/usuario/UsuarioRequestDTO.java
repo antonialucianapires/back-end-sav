@@ -1,6 +1,7 @@
 package br.com.escola.sav.dto.request.usuario;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
@@ -60,5 +61,9 @@ public class UsuarioRequestDTO {
     @NotBlank(groups = UsuarioView.RegistrarUsuarioPost.class)
     @JsonView(UsuarioView.RegistrarUsuarioPost.class)
     private String tipo;
+
+    @JsonProperty("id_disciplina")
+    @JsonView(UsuarioView.RegistrarUsuarioPost.class)
+    private Long idDisciplina;
 
 }

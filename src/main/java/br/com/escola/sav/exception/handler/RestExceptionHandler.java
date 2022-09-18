@@ -1,6 +1,6 @@
 package br.com.escola.sav.exception.handler;
 
-import br.com.escola.sav.dto.request.periodo.ResultView;
+import br.com.escola.sav.dto.request.compartilhado.ResultView;
 import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.exception.SavException;
 import org.springframework.http.HttpStatus;

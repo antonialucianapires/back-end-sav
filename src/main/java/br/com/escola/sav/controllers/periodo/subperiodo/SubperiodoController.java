@@ -1,6 +1,6 @@
 package br.com.escola.sav.controllers.periodo.subperiodo;
 
-import br.com.escola.sav.dto.request.periodo.ResultView;
+import br.com.escola.sav.dto.request.compartilhado.ResultView;
 import br.com.escola.sav.dto.request.periodo.subperiodo.SubperiodoRequestDTO;
 import br.com.escola.sav.dto.response.periodo.subperiodo.SubperiodoResponseDTO;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
