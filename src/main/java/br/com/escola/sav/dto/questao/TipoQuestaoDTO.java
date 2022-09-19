@@ -1,6 +1,5 @@
 package br.com.escola.sav.dto.questao;
 
-import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.questao.TipoQuestao;
 import br.com.escola.sav.util.validador.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonInclude;

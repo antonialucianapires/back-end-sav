@@ -9,8 +9,6 @@ import br.com.escola.sav.services.disciplina.IDisciplinaService;
 import br.com.escola.sav.services.usuario.IUsuarioService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

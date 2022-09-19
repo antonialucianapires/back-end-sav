@@ -1,7 +1,6 @@
 package br.com.escola.sav.dto.questao;
 
 import br.com.escola.sav.entities.questao.Questao;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

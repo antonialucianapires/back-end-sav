@@ -19,4 +19,6 @@ public interface ISubperiodoService {
     void excluirSubperiodos(List<SubPeriodo> subperiodos);
 
     void criarSubperiodos(ArrayList<SubPeriodo> subperiodosEntities);
+
+    SubPeriodo buscarSubperiodoPorId(Integer idSubperiodo);
 }

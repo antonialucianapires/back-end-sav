@@ -7,7 +7,6 @@ import br.com.escola.sav.enums.disciplina.StatusDisciplina;
 import br.com.escola.sav.repositories.disciplina.DisciplinaDocenteRepository;
 import br.com.escola.sav.repositories.disciplina.DisciplinaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

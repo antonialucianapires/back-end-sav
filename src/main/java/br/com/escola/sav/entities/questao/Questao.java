@@ -1,5 +1,6 @@
 package br.com.escola.sav.entities.questao;
 
+import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -40,4 +41,7 @@ public class Questao {
 
     @OneToMany(mappedBy = "questao")
     private List<ItemQuestao> itens;
+
+    @ManyToMany(mappedBy = "questoes")
+    private List<Avaliacao> avaliacoes;
 }

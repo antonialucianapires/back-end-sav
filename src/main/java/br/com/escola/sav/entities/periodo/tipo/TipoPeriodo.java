@@ -3,7 +3,6 @@ package br.com.escola.sav.entities.periodo.tipo;
 import br.com.escola.sav.entities.periodo.Periodo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;

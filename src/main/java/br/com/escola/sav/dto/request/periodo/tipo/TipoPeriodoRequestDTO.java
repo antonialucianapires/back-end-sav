@@ -2,7 +2,6 @@ package br.com.escola.sav.dto.request.periodo.tipo;
 
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.util.validador.UniqueValue;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.io.Serializable;

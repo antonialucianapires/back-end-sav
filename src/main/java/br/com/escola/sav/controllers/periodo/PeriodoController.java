@@ -1,7 +1,7 @@
 package br.com.escola.sav.controllers.periodo;
 
-import br.com.escola.sav.dto.request.periodo.PeriodoRequestDTO;
 import br.com.escola.sav.dto.request.compartilhado.ResultView;
+import br.com.escola.sav.dto.request.periodo.PeriodoRequestDTO;
 import br.com.escola.sav.dto.response.periodo.PeriodoResponseDTO;
 import br.com.escola.sav.services.periodo.IPeriodoService;
 import org.springframework.beans.factory.annotation.Autowired;
