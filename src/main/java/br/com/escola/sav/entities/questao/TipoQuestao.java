@@ -1,8 +1,7 @@
 package br.com.escola.sav.entities.questao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +11,9 @@ import java.util.List;
 @Table(name = "tipos_questao")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TipoQuestao {
 
     @Id
