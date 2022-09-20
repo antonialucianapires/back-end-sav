@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class QuestaoService implements IQuestaoService{
 
@@ -32,5 +34,10 @@ public class QuestaoService implements IQuestaoService{
     @Override
     public void deletarQuestao(Questao questao) {
         repository.delete(questao);
+    }
+
+    @Override
+    public List<Questao> listarQuestoesPorId(List<Long> questoes) {
+        return repository.findAllById(questoes);
     }
 }

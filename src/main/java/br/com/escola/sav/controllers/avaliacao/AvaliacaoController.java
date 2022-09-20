@@ -1,15 +1,16 @@
 package br.com.escola.sav.controllers.avaliacao;
 
 import br.com.escola.sav.dto.avaliacao.AvaliacaoDTO;
-import br.com.escola.sav.dto.request.compartilhado.ResultView;
-import br.com.escola.sav.dto.request.disciplina.DisciplinaRequestDTO;
+import br.com.escola.sav.dto.avaliacao.AvaliacaoQuestaoRequestDTO;
+import br.com.escola.sav.dto.avaliacao.AvaliacaoResponseDTO;
+import br.com.escola.sav.dto.questao.QuestaoDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.services.avaliacao.IAvaliacaoService;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
+import br.com.escola.sav.services.questao.IQuestaoService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avaliacoes")
@@ -26,6 +29,8 @@ public class AvaliacaoController {
 
     private final IAvaliacaoService avaliacaoService;
     private final ISubperiodoService subperiodoService;
+
+    private final IQuestaoService questaoService;
 
     @PostMapping
     public ResponseEntity<ResponsePattern> registrar(@RequestBody @Validated(AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class) @JsonView(AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class) AvaliacaoDTO avaliacaoDTO) {
@@ -69,4 +74,20 @@ public class AvaliacaoController {
                 .build());
 
     }
+
+    @PostMapping
+    public ResponseEntity<ResponsePattern> atacharQuestaoNaAvaliacao(@RequestBody @Validated AvaliacaoQuestaoRequestDTO questoesAvaliacao) {
+
+        var avaliacao = avaliacaoService.buscarPorId(questoesAvaliacao.getIdAvaliacao());
+        var questoes = questaoService.listarQuestoesPorId(questoesAvaliacao.getQuestoes());
+        avaliacao.setQuestoes(questoes);
+        avaliacaoService.criarAvaliacao(avaliacao);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
+                .httpCode(HttpStatus.OK.value())
+                .message("Questões associadas com sucesso nesta avaliação")
+                .build());
+
+    }
+
 }
