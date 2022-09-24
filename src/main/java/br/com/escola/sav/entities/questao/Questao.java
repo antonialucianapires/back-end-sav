@@ -4,6 +4,8 @@ import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

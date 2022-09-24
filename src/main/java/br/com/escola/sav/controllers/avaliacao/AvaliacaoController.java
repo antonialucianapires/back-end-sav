@@ -3,6 +3,7 @@ package br.com.escola.sav.controllers.avaliacao;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoDTO;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoQuestaoRequestDTO;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoResponseDTO;
+import br.com.escola.sav.dto.questao.ItemQuestaoDTO;
 import br.com.escola.sav.dto.questao.QuestaoDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/avaliacoes")
@@ -75,7 +77,7 @@ public class AvaliacaoController {
 
     }
 
-    @PostMapping
+   @PutMapping("/questoes")
     public ResponseEntity<ResponsePattern> atacharQuestaoNaAvaliacao(@RequestBody @Validated AvaliacaoQuestaoRequestDTO questoesAvaliacao) {
 
         var avaliacao = avaliacaoService.buscarPorId(questoesAvaliacao.getIdAvaliacao());
@@ -88,6 +90,60 @@ public class AvaliacaoController {
                 .message("Questões associadas com sucesso nesta avaliação")
                 .build());
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePattern> buscarAvaliacaoPorId(@PathVariable("id") Long id, @RequestParam(required = false, name = "com_questoes") Character comQuestoes) {
+
+        var avaliacao = avaliacaoService.buscarPorId(id);
+
+        if(comQuestoes.equals('S')) {
+
+            List<QuestaoDTO> questoes = new ArrayList<>();
+
+            avaliacao.getQuestoes().forEach(questao -> {
+                questoes.add(QuestaoDTO.builder()
+                        .id(questao.getId())
+                        .titulo(questao.getTitulo())
+                        .enunciado(questao.getEnunciado())
+                        .nomeTipoQuestao(questao.getTipoQuestao().getNome())
+                        .nivel(questao.getNivelQuestao().name())
+                        .itensQuestao(questao.getItens().stream().map(ItemQuestaoDTO::new).collect(Collectors.toList()))
+                        .build());
+            });
+            var avaliacaoDto = AvaliacaoResponseDTO.builder()
+                    .idAvaliacao(avaliacao.getId())
+                    .titulo(avaliacao.getTitulo())
+                    .dataHoraInicio(avaliacao.getDataHoraInicio().toString())
+                    .dataHoraFim(avaliacao.getDataHoraFim().toString())
+                    .periodo(avaliacao.getSubPeriodo().getPeriodo().getNome())
+                    .subperiodo(avaliacao.getSubPeriodo().getNome())
+                    .questoes(questoes)
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
+                    .httpCode(HttpStatus.OK.value())
+                    .payload(avaliacaoDto)
+                    .build());
+
+        }
+
+
+
+        var avaliacaoDto = AvaliacaoResponseDTO.builder()
+                .idAvaliacao(avaliacao.getId())
+                .titulo(avaliacao.getTitulo())
+                .dataHoraInicio(avaliacao.getDataHoraInicio().toString())
+                .dataHoraFim(avaliacao.getDataHoraFim().toString())
+                .periodo(avaliacao.getSubPeriodo().getPeriodo().getNome())
+                .subperiodo(avaliacao.getSubPeriodo().getNome())
+                .questoes(null)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
+                .httpCode(HttpStatus.OK.value())
+                .payload(avaliacaoDto)
+                .build());
     }
 
 }
