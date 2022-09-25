@@ -27,6 +27,8 @@ public class AvaliacaoEstudanteResponseDTO {
     private String nomeTurma;
     @JsonProperty(value = "nome_docente", index = 4)
     private String nomeDocente;
-    @JsonProperty(value = "questoes", index = 5)
+    @JsonProperty(value = "duracao", index = 5)
+    private String duracao;
+    @JsonProperty(value = "questoes", index = 6)
     List<QuestaoDTO> questoes;
 }

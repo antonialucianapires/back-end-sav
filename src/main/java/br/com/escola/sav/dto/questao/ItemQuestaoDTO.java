@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class ItemQuestaoDTO implements Serializable {
 
     private static final long serialVersionUID = 3172058538473135667L;
+
+    private Long id;
     @JsonView({QuestaoDTO.QuestaoView.AtualizarQuestao.class, QuestaoDTO.QuestaoView.CriarQuestao.class,QuestaoDTO.QuestaoView.VisualizarQuestao.class})
     private String descricao;
     @JsonProperty("indicador_gabarito")
@@ -22,6 +24,7 @@ public class ItemQuestaoDTO implements Serializable {
     private Character indicadorGabarito;
 
     public ItemQuestaoDTO(ItemQuestao itemQuestao) {
+        this.id = itemQuestao.getId();
         this.descricao = itemQuestao.getDescricao();
         this.indicadorGabarito = itemQuestao.getIndicadorGabarito();
     }
