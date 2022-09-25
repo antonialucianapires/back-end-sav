@@ -153,9 +153,10 @@ public class AvaliacaoController {
 
     @GetMapping
     public ResponseEntity<ResponsePattern> listarQuestoes(SpecificationTemplate.AvaliacaoSpec spec,
-                                                          @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable) {
+                                                          @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
+                                                          @RequestParam(name = "periodo_id") Integer periodoId) {
 
-        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(spec,pageable);
+        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(SpecificationTemplate.avaliacoesPeriodoId(periodoId).and(spec),pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())

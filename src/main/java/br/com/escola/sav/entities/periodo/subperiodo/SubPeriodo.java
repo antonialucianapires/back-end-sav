@@ -1,11 +1,16 @@
 package br.com.escola.sav.entities.periodo.subperiodo;
 
+import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.entities.periodo.Periodo;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
+
 @Entity
 @Table(name = "subperiodos")
 @Getter
@@ -26,6 +31,10 @@ public class SubPeriodo {
     private Date dataFim;
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
+
+    @OneToMany(mappedBy = "subPeriodo")
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<Avaliacao> avaliacoes;
 
     @Deprecated
     public SubPeriodo() {

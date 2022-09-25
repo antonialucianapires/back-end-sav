@@ -4,6 +4,7 @@ import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.specifications.SpecificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface IAvaliacaoService {
 
     Avaliacao buscarPorId(Long id);
 
-    Page<Avaliacao> buscarAvaliacoes(SpecificationTemplate.AvaliacaoSpec spec, Pageable pageable);
+    Page<Avaliacao> buscarAvaliacoes(Specification<Avaliacao> spec, Pageable pageable);
 }
