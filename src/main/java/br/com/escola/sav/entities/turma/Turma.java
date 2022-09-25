@@ -5,6 +5,8 @@ import br.com.escola.sav.entities.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -36,5 +38,6 @@ public class Turma {
     @ManyToMany
     @JsonIgnore
     @JoinTable(name = "usuario_turma", joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    @Fetch(FetchMode.JOIN)
     private List<Usuario> usuarios;
 }
