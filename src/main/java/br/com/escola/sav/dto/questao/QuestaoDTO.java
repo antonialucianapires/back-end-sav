@@ -45,6 +45,7 @@ public class QuestaoDTO implements Serializable {
     @JsonProperty("tipo_questao")
     private Long tipoQuestao;
     @JsonView({QuestaoView.CriarQuestao.class})
+    @JsonProperty("nome_tipo_questao")
     private String nomeTipoQuestao;
     @NotBlank(groups = {QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class})
     @JsonView({QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class,QuestaoView.VisualizarQuestao.class})
