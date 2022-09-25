@@ -76,5 +76,18 @@ public class TurmaService implements ITurmaService {
         repository.delete(turma);
     }
 
+    @Override
+    public Turma buscarTurmaPorUsuarioEPeriodo(Long usuarioId, Integer periodo) {
+        var turmaPeriodo = repository.findByPeriodoId(periodo).orElseThrow(() -> new ObjectNotFound("Não encontramos a turma na qual a pessoa estudante está inscrita neste período."));
+
+        var usuarioInscrito = turmaPeriodo.getUsuarios().stream().filter(usuario -> usuario.getId().equals(usuarioId)).findFirst();
+
+        if(usuarioInscrito.isPresent()) {
+            return turmaPeriodo;
+        }
+
+       throw new SavException("Usuário não está inscrito em uma turma.");
+    }
+
 
 }

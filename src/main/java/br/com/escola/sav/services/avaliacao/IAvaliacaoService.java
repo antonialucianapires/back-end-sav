@@ -2,6 +2,7 @@ package br.com.escola.sav.services.avaliacao;
 
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.entities.avaliacao.AvaliacaoTurma;
+import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.specifications.SpecificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,6 @@ public interface IAvaliacaoService {
     Page<Avaliacao> buscarAvaliacoes(Specification<Avaliacao> spec, Pageable pageable);
 
     void distribuirAvaliacaoParaTurmas(List<AvaliacaoTurma> avaliacaoTurmas);
+
+    List<Avaliacao> buscarAvaliacoesPorTurma(Turma turma);
 }
