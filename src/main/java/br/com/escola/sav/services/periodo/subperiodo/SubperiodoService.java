@@ -77,4 +77,9 @@ public class SubperiodoService implements ISubperiodoService{
     public void criarSubperiodos(ArrayList<SubPeriodo> subperiodosEntities) {
         subperiodoRepository.saveAll(subperiodosEntities);
     }
+
+    @Override
+    public SubPeriodo buscarSubperiodoPorId(Integer idSubperiodo) {
+        return subperiodoRepository.findById(idSubperiodo).orElseThrow(() -> new ObjectNotFound("Subperíodo não encontrado"));
+    }
 }

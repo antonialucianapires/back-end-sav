@@ -1,6 +1,5 @@
 package br.com.escola.sav.dto.request.disciplina;
 
-import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;

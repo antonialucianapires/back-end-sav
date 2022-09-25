@@ -4,7 +4,9 @@ import br.com.escola.sav.dto.request.periodo.subperiodo.SubperiodoRequestDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.util.validador.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -6,7 +6,6 @@ import br.com.escola.sav.entities.questao.TipoQuestao;
 import br.com.escola.sav.services.questao.ITipoQuestaoService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

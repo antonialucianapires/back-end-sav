@@ -1,12 +1,16 @@
 package br.com.escola.sav.entities.questao;
 
+import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "questoes")
@@ -38,6 +42,11 @@ public class Questao {
     @Column
     private LocalDateTime dataHoraCriacao;
 
-    @OneToMany(mappedBy = "questao")
+    @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     private List<ItemQuestao> itens;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "questoes")
+    private List<Avaliacao> avaliacoes;
 }

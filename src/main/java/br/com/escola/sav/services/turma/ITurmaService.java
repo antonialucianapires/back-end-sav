@@ -20,4 +20,6 @@ public interface ITurmaService {
     List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma);
 
     void removerTurmaPorId(Long idTurma);
+
+    Turma buscarTurmaPorUsuarioEPeriodo(Long usuarioId, Integer periodo);
 }
