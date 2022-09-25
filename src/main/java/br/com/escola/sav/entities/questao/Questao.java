@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "questoes")
@@ -41,9 +42,11 @@ public class Questao {
     @Column
     private LocalDateTime dataHoraCriacao;
 
-    @OneToMany(mappedBy = "questao")
+    @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     private List<ItemQuestao> itens;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "questoes")
     private List<Avaliacao> avaliacoes;
 }

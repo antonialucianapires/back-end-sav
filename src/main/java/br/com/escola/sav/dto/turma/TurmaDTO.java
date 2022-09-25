@@ -2,6 +2,7 @@ package br.com.escola.sav.dto.turma;
 
 import br.com.escola.sav.entities.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
@@ -29,9 +30,11 @@ public class TurmaDTO {
     private String descricao;
     @NotNull(groups = {TurmaDTO.TurmaView.CriarTurma.class})
     @JsonView({TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
+    @JsonProperty("id_periodo")
     private Integer idPeriodo;
     @NotNull(groups = TurmaView.InscricaoUsuarioTurma.class)
     @JsonView(TurmaView.InscricaoUsuarioTurma.class)
+    @JsonProperty("id_usuario")
     private Long idUsuario;
 
     public static TurmaDTO create(Turma turma) {

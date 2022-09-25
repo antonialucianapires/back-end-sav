@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestaoService implements IQuestaoService{
@@ -37,7 +39,7 @@ public class QuestaoService implements IQuestaoService{
     }
 
     @Override
-    public List<Questao> listarQuestoesPorId(List<Long> questoes) {
-        return repository.findAllById(questoes);
+    public Set<Questao> listarQuestoesPorId(List<Long> questoes) {
+        return repository.findAllById(questoes).stream().collect(Collectors.toUnmodifiableSet());
     }
 }

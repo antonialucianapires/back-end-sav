@@ -7,9 +7,13 @@ import br.com.escola.sav.dto.questao.ItemQuestaoDTO;
 import br.com.escola.sav.dto.questao.QuestaoDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
+import br.com.escola.sav.entities.avaliacao.AvaliacaoTurma;
+import br.com.escola.sav.entities.avaliacao.AvaliacaoTurmaId;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.services.avaliacao.IAvaliacaoService;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
+import br.com.escola.sav.services.usuario.IUsuarioService;
 import br.com.escola.sav.specifications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +43,12 @@ public class AvaliacaoController {
 
     private final IQuestaoService questaoService;
 
+    private final IUsuarioService usuarioService;
+
     @PostMapping
     public ResponseEntity<ResponsePattern> registrar(@RequestBody @Validated(AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class) @JsonView(AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class) AvaliacaoDTO avaliacaoDTO) {
 
+        var usuario = usuarioService.buscarUsuarioPorId(avaliacaoDTO.getUsuarioCriacao()).orElseThrow(() -> new SavException("Usuário não encontrado"));
         var subperiodo = subperiodoService.buscarSubperiodoPorId(avaliacaoDTO.getIdSubperiodo());
 
         var avaliacao = new Avaliacao();
@@ -51,8 +58,23 @@ public class AvaliacaoController {
         avaliacao.setDataHoraInicio(avaliacaoDTO.getDataHoraInicio());
         avaliacao.setDataHoraFim(avaliacaoDTO.getDataHoraFim());
         avaliacao.setDataHoraCriacao(LocalDateTime.now());
+        avaliacao.setUsuarioCriacao(usuario);
 
-        avaliacaoService.criarAvaliacao(avaliacao);
+        var avaliacaoCriada = avaliacaoService.criarAvaliacao(avaliacao);
+
+        List<AvaliacaoTurma> avaliacaoTurmas = new ArrayList<>();
+        avaliacaoDTO.getTurmas().forEach(turma -> {
+            avaliacaoTurmas.add(AvaliacaoTurma.builder()
+                            .id(AvaliacaoTurmaId.builder()
+                                    .idAvaliacao(avaliacaoCriada.getId())
+                                    .idTurma(turma)
+                                    .build())
+                            .dataHoraCriacao(LocalDateTime.now())
+                    .build());
+        });
+
+        avaliacaoService.distribuirAvaliacaoParaTurmas(avaliacaoTurmas);
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())
@@ -152,11 +174,15 @@ public class AvaliacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarQuestoes(SpecificationTemplate.AvaliacaoSpec spec,
+    public ResponseEntity<ResponsePattern> listarAvaliacoes(SpecificationTemplate.AvaliacaoSpec spec,
                                                           @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
-                                                          @RequestParam(name = "periodo_id") Integer periodoId) {
+                                                          @RequestParam(name = "periodo_id") Integer periodoId,
+                                                            @RequestParam(name = "usuario_criacao", required = false) Long idUsuario) {
 
-        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(SpecificationTemplate.avaliacoesPeriodoId(periodoId).and(spec),pageable);
+        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(SpecificationTemplate.filtroPeriodoId(periodoId)
+                .and(spec)
+                .and(SpecificationTemplate.filtroUsuarioCriacao(idUsuario))
+                ,pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())
