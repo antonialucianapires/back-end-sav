@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/estudante")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -23,6 +25,20 @@ public class AvaliacaoEstudanteController {
     public ResponseEntity<ResponsePattern> listarAvaliacoesEstudante(@PathVariable("id_estudante") Long idUsuarioEstudante, @RequestParam("id_periodo") Integer idPeriodo) {
         var turma = turmaService.buscarTurmaPorUsuarioEPeriodo(idUsuarioEstudante, idPeriodo);
         var avaliacoes = avaliacaoService.buscarAvaliacoesPorTurma(turma);
+
+        avaliacoes.forEach(avaliacao -> {
+            var status = "";
+
+            if(LocalDateTime.now().isBefore(avaliacao.getDataHoraInicio())) {
+                status = "não liberada";
+            } else if(avaliacao.getDataHoraInicio().equals(LocalDateTime.now()) || avaliacao.getDataHoraInicio().isBefore(avaliacao.getDataHoraFim())) {
+                status = "liberada";
+            } else if(avaliacao.getDataHoraFim().isBefore(LocalDateTime.now())) {
+                status = "encerrada";
+            }
+
+            avaliacao.setStatus(status);
+        });
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())

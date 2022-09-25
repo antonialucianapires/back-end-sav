@@ -45,6 +45,9 @@ public class Avaliacao {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataHoraFim;
 
+    @Transient
+    private String status;
+
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "sub_periodo_id")
