@@ -3,12 +3,16 @@ package br.com.escola.sav.controllers.avaliacao;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoDTO;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoQuestaoRequestDTO;
 import br.com.escola.sav.dto.avaliacao.AvaliacaoResponseDTO;
+import br.com.escola.sav.dto.avaliacao.AvalicaoQuestaoValorObjetivoDTO;
 import br.com.escola.sav.dto.questao.ItemQuestaoDTO;
 import br.com.escola.sav.dto.questao.QuestaoDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.entities.avaliacao.AvaliacaoTurma;
 import br.com.escola.sav.entities.avaliacao.AvaliacaoTurmaId;
+import br.com.escola.sav.entities.questao.Questao;
+import br.com.escola.sav.entities.questao.QuestaoValorObjetivo;
+import br.com.escola.sav.entities.questao.QuestaoValorObjetivoId;
 import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.services.avaliacao.IAvaliacaoService;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
@@ -26,10 +30,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -107,12 +115,17 @@ public class AvaliacaoController {
    @PutMapping("/questoes")
     public ResponseEntity<ResponsePattern> atacharQuestaoNaAvaliacao(@RequestBody @Validated AvaliacaoQuestaoRequestDTO questoesAvaliacao) {
 
+        var idsQuestoes = questoesAvaliacao.getQuestoes().stream().map(AvalicaoQuestaoValorObjetivoDTO::getIdQuestao).collect(Collectors.toList());
+
         var avaliacao = avaliacaoService.buscarPorId(questoesAvaliacao.getIdAvaliacao());
-        var questoes = questaoService.listarQuestoesPorId(questoesAvaliacao.getQuestoes());
+        var questoes = questaoService.listarQuestoesPorId(idsQuestoes);
         avaliacao.setQuestoes(questoes);
         avaliacaoService.criarAvaliacao(avaliacao);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
+       salvarValorObjetivoDasQuestoes(questoesAvaliacao, avaliacao, questoes);
+
+
+       return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())
                 .message("Questões associadas com sucesso nesta avaliação")
                 .build());
@@ -124,17 +137,23 @@ public class AvaliacaoController {
 
         var avaliacao = avaliacaoService.buscarPorId(id);
 
+        var mapaValores = questaoService.buscarValorQuestoes(avaliacao.getId(), avaliacao.getQuestoes().stream().map(Questao::getId).collect(Collectors.toList()));
+
         if(comQuestoes.equals('S')) {
 
             List<QuestaoDTO> questoes = new ArrayList<>();
 
             avaliacao.getQuestoes().forEach(questao -> {
+
+                var valorQuestao = mapaValores.get(questao.getId());
+
                 questoes.add(QuestaoDTO.builder()
                         .id(questao.getId())
                         .titulo(questao.getTitulo())
                         .enunciado(questao.getEnunciado())
                         .nomeTipoQuestao(questao.getTipoQuestao().getNome())
                         .nivel(questao.getNivelQuestao().name())
+                                .valorQuestao(valorQuestao.size() == 1 ? valorQuestao.stream().findFirst().get().getValorObjetivo().doubleValue() : null)
                         .itensQuestao(questao.getItens().stream().map(ItemQuestaoDTO::new).collect(Collectors.toList()))
                         .build());
             });
@@ -190,4 +209,26 @@ public class AvaliacaoController {
                 .build());
     }
 
+
+
+    private void salvarValorObjetivoDasQuestoes(AvaliacaoQuestaoRequestDTO questoesAvaliacao, Avaliacao avaliacao, Set<Questao> questoes) {
+        List<QuestaoValorObjetivo> valoresQuestoes = new ArrayList<>();
+        questoes.forEach(questaoDominio -> {
+            var questao = questoesAvaliacao.getQuestoes().stream().filter(q -> q.getIdQuestao().equals(questaoDominio.getId())).findFirst();
+
+            questao.ifPresent(avalicaoQuestaoValorObjetivoDTO -> valoresQuestoes.add(QuestaoValorObjetivo.builder()
+                    .id(QuestaoValorObjetivoId.builder()
+                            .idAvaliacao(avaliacao.getId())
+                            .idQuestao(questaoDominio.getId())
+                            .build())
+                    .valorObjetivo(BigDecimal.valueOf(avalicaoQuestaoValorObjetivoDTO.getValorQuestao()))
+                    .dataHoraCriacao(LocalDateTime.now())
+                    .build()));
+
+        });
+
+        questaoService.registrarValorDaQuestao(valoresQuestoes);
+    }
+
 }
+
