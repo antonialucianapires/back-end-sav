@@ -37,6 +37,12 @@ public class RespostaQuestaoApurada {
     private ItemQuestao itemQuestao;
     @Column
     private String textoRespostaLivre;
+
+    @Column
+    private Character indicadorCorrecao;
+
+    @Column
+    private Character indicadorAcerto;
     @Column
     private LocalDateTime dataCriacao;
 
