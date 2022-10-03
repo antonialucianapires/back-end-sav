@@ -14,4 +14,7 @@ public class ResultadoAvaliacaoDTO {
 
     @JsonProperty("nota_final")
     private Double notaFinalAvaliacao;
+    @JsonProperty("disciplina")
+    private String nomeDisciplina;
+
 }

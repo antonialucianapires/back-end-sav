@@ -34,6 +34,7 @@ public class ResultadoAvaliacaoController {
                 .httpCode(HttpStatus.OK.value())
                         .payload(ResultadoAvaliacaoDTO.builder()
                                 .notaFinalAvaliacao(resultadoAvaliacao.getNotaFinal())
+                                .nomeDisciplina(avaliacao.getDisciplina().getNome())
                                 .build())
                 .build());
     }
