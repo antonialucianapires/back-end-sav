@@ -1,5 +1,6 @@
 package br.com.escola.sav.entities.avaliacao;
 
+import br.com.escola.sav.entities.disciplina.Disciplina;
 import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.usuario.Usuario;
@@ -57,6 +58,11 @@ public class Avaliacao {
     @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id")
     private Usuario usuarioCriacao;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "disciplina_id")
+    private Disciplina disciplina;
 
     @Column
     @JsonIgnore
