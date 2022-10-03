@@ -4,6 +4,7 @@ import br.com.escola.sav.entities.disciplina.Disciplina;
 import br.com.escola.sav.entities.disciplina.DisciplinaDocente;
 import br.com.escola.sav.entities.disciplina.DisciplinaDocenteId;
 import br.com.escola.sav.enums.disciplina.StatusDisciplina;
+import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.repositories.disciplina.DisciplinaDocenteRepository;
 import br.com.escola.sav.repositories.disciplina.DisciplinaRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,10 @@ public class DisciplinaService implements IDisciplinaService{
         associacao.setDataHoraCriacao(LocalDateTime.now());
 
         disciplinaDocenteRepository.save(associacao);
+    }
+
+    @Override
+    public Disciplina buscarDisciplinaPorId(Long idDisciplina) {
+        return repository.findById(idDisciplina).orElseThrow(() -> new ObjectNotFound("Disciplina não encontrada"));
     }
 }
