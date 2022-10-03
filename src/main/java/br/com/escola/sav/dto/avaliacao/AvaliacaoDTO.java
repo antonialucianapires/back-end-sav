@@ -46,6 +46,11 @@ public class AvaliacaoDTO {
     @JsonProperty("id_subperiodo")
     private Integer idSubperiodo;
 
+    @NotNull(groups = {AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class})
+    @JsonView({AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class})
+    @JsonProperty("id_disciplina")
+    private Long idDisciplina;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT-3")
     @NotNull(groups = {AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class})
     @JsonView({AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class,AvaliacaoDTO.AvaliacaoView.AvaliacaoResumo.class})

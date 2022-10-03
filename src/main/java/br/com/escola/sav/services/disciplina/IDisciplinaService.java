@@ -14,4 +14,6 @@ public interface IDisciplinaService {
     List<Disciplina> listarDisciplinas();
 
     void associarDocenteDisciplina(Long idDocente, Long idDisciplina);
+
+    Disciplina buscarDisciplinaPorId(Long idDisciplina);
 }
