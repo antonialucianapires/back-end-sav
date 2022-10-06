@@ -54,5 +54,9 @@ public class Usuario {
     @ManyToMany(mappedBy = "usuarios")
     private List<Turma> turmas;
 
+    public boolean isAdmin() {
+        return this.tipoUsuario.equals(TipoUsuario.ADMIN);
+    }
+
 
 }

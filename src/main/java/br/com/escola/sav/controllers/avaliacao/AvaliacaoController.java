@@ -19,7 +19,7 @@ import br.com.escola.sav.services.disciplina.IDisciplinaService;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
 import br.com.escola.sav.services.usuario.IUsuarioService;
-import br.com.escola.sav.specifications.SpecificationTemplate;
+import br.com.escola.sav.specifications.AavalicaoSpecification;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,12 +32,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -200,14 +198,14 @@ public class AvaliacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarAvaliacoes(SpecificationTemplate.AvaliacaoSpec spec,
-                                                          @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
-                                                          @RequestParam(name = "periodo_id") Integer periodoId,
+    public ResponseEntity<ResponsePattern> listarAvaliacoes(AavalicaoSpecification.AvaliacaoSpec spec,
+                                                            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
+                                                            @RequestParam(name = "periodo_id") Integer periodoId,
                                                             @RequestParam(name = "usuario_criacao", required = false) Long idUsuario) {
 
-        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(SpecificationTemplate.filtroPeriodoId(periodoId)
+        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(AavalicaoSpecification.filtroPeriodoId(periodoId)
                 .and(spec)
-                .and(SpecificationTemplate.filtroUsuarioCriacao(idUsuario))
+                .and(AavalicaoSpecification.filtroUsuarioCriacao(idUsuario))
                 ,pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()

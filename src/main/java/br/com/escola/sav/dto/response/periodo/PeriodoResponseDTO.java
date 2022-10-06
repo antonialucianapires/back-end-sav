@@ -4,6 +4,7 @@ import br.com.escola.sav.dto.response.periodo.subperiodo.SubperiodoResponseDTO;
 import br.com.escola.sav.entities.periodo.Periodo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,12 +28,16 @@ public class PeriodoResponseDTO implements Serializable {
     private static final long serialVersionUID = 3727934978388786874L;
 
     private int id;
+    @JsonProperty("nome_periodo")
     private String nomePeriodo;
 
+    @JsonProperty("tipo_periodo")
     private String tipoPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonProperty("data_inicio")
     private Date dataInicio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonProperty("data_fim")
     private Date dataFim;
 
     private String status;

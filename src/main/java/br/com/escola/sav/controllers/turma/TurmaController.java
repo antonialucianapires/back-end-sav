@@ -3,8 +3,13 @@ package br.com.escola.sav.controllers.turma;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.dto.turma.TurmaDTO;
 import br.com.escola.sav.entities.turma.Turma;
+import br.com.escola.sav.enums.usuario.StatusUsuario;
+import br.com.escola.sav.enums.usuario.TipoUsuario;
+import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.services.periodo.IPeriodoService;
 import br.com.escola.sav.services.turma.ITurmaService;
+import br.com.escola.sav.services.usuario.IUsuarioService;
+import br.com.escola.sav.specifications.TurmaSpecification;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -26,6 +32,8 @@ public class TurmaController {
 
    private final ITurmaService turmaService;
    private final IPeriodoService periodoService;
+
+   private final IUsuarioService usuarioService;
 
     @PostMapping
     public ResponseEntity<Object> criarTurma(@RequestBody @Validated(TurmaDTO.TurmaView.CriarTurma.class) @JsonView(TurmaDTO.TurmaView.CriarTurma.class) TurmaDTO turmaDTO) {
@@ -47,8 +55,19 @@ public class TurmaController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarTurmas(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        var turmas = turmaService.listarTurmas(pageable);
+    public ResponseEntity<ResponsePattern> listarTurmas(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,@RequestParam(name = "id_usuario") Long usuarioId) {
+        var usuario = usuarioService.buscarUsuarioPorId(usuarioId).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
+
+        if(usuario.isAdmin()) {
+            var turmas = turmaService.listarTurmas(pageable);
+            turmas.getContent().forEach(turma -> turma.setTotalEstudantes((int) turma.getUsuarios().stream().filter(u -> u.getTipoUsuario().equals(TipoUsuario.ESTUDANTE) && u.getStatusUsuario().equals(StatusUsuario.ATIVO)).count()));
+            return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
+                    .payload(turmas)
+                    .build());
+        }
+
+        var turmas = turmaService.listarTurmas(pageable, TurmaSpecification.filtroUsuarioId(usuarioId));
+        turmas.getContent().forEach(turma -> turma.setTotalEstudantes((int) turma.getUsuarios().stream().filter(u -> u.getTipoUsuario().equals(TipoUsuario.ESTUDANTE) && u.getStatusUsuario().equals(StatusUsuario.ATIVO)).count()));
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
                 .payload(turmas)
                 .build());

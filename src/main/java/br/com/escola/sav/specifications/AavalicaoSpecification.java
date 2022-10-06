@@ -11,7 +11,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
-public class SpecificationTemplate {
+public class AavalicaoSpecification {
 
     @Or({@Spec(path = "titulo", spec = Like.class)})
     public interface AvaliacaoSpec extends Specification<Avaliacao> {}

@@ -6,6 +6,7 @@ import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface ISubperiodoService {
     void criarSubperiodo(String nomeSubperiodo, int codigoPeriodo, Date dataFim, Date dataFim1);
@@ -16,7 +17,7 @@ public interface ISubperiodoService {
 
     void excluirSubperiodo(int idSubperiodo);
 
-    void excluirSubperiodos(List<SubPeriodo> subperiodos);
+    void excluirSubperiodos(Set<SubPeriodo> subperiodos);
 
     void criarSubperiodos(ArrayList<SubPeriodo> subperiodosEntities);
 

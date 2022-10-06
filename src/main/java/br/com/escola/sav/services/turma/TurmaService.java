@@ -10,6 +10,7 @@ import br.com.escola.sav.repositories.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class TurmaService implements ITurmaService {
     }
 
     @Override
-    public Page<Turma> listarTurmas(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Turma> listarTurmas(Pageable pageable, Specification<Turma> specification) {
+        return repository.findAll(specification, pageable);
 
     }
 
@@ -87,6 +88,11 @@ public class TurmaService implements ITurmaService {
         }
 
        throw new SavException("Usuário não está inscrito em uma turma.");
+    }
+
+    @Override
+    public Page<Turma> listarTurmas(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
 
