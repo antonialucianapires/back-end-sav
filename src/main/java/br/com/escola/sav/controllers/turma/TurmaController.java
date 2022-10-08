@@ -1,7 +1,9 @@
 package br.com.escola.sav.controllers.turma;
 
+import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.dto.turma.TurmaDTO;
+import br.com.escola.sav.dto.turma.TurmaInscritosDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.enums.usuario.TipoUsuario;
@@ -90,9 +92,21 @@ public class TurmaController {
     }
 
     @GetMapping("/{id}/inscritos")
-    public ResponseEntity<ResponsePattern> listarInscritosNaTurma(@PathVariable("id") Long idTurma) {
+    public ResponseEntity<ResponsePattern> listarInscritosNaTurma(@PathVariable("id") @JsonView(UsuarioRequestDTO.UsuarioView.VisualizarUsuario.class) Long idTurma) {
+
+        var turma  = turmaService.listarUsuarioPorTurma(idTurma);
+
+        var turmadto = TurmaInscritosDTO.builder()
+                .idTurma(turma.getId())
+                .nomeTurma(turma.getNome())
+                .nomePeriodo(turma.getPeriodo().getNome())
+                .descricaoTurma(turma.getDescricao())
+                .dataCriacao(turma.getDataHoraCriacao())
+                .inscritos(turma.getUsuarios().stream().map(UsuarioRequestDTO::create).collect(Collectors.toList()))
+                .build();
+
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
-                        .payload(turmaService.listarUsuarioPorTurma(idTurma))
+                        .payload(turmadto)
                 .build());
     }
 

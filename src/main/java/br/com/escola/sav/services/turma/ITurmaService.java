@@ -1,6 +1,7 @@
 package br.com.escola.sav.services.turma;
 
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
+import br.com.escola.sav.dto.turma.TurmaInscritosDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.specifications.TurmaSpecification;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ public interface ITurmaService {
 
     void removerMatriculadoDaTurma(Long id, Long idUsuario);
 
-    List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma);
+    Turma listarUsuarioPorTurma(Long idTurma);
 
     void removerTurmaPorId(Long idTurma);
 

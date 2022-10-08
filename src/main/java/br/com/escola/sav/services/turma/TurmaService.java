@@ -1,6 +1,7 @@
 package br.com.escola.sav.services.turma;
 
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
+import br.com.escola.sav.dto.turma.TurmaInscritosDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.exception.ObjectNotFound;
@@ -61,9 +62,8 @@ public class TurmaService implements ITurmaService {
     }
 
     @Override
-    public List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma) {
-        var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
-        return turma.getUsuarios().stream().map(UsuarioRequestDTO::create).collect(Collectors.toList());
+    public Turma listarUsuarioPorTurma(Long idTurma) {
+        return repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
     }
 
     @Override
