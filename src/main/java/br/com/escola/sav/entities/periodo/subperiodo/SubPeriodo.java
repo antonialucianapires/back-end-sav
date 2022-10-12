@@ -2,6 +2,7 @@ package br.com.escola.sav.entities.periodo.subperiodo;
 
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.entities.periodo.Periodo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
@@ -22,6 +23,7 @@ public class SubPeriodo {
     private int id;
     @ManyToOne
     @JoinColumn(name = "periodo_id", nullable = false)
+    @JsonIgnore
     private Periodo periodo;
     @Column(name = "nome_subperiodo", nullable = false, length = 50)
     private String nome;
@@ -33,7 +35,6 @@ public class SubPeriodo {
     private Date dataCriacao;
 
     @OneToMany(mappedBy = "subPeriodo")
-    @Fetch(FetchMode.SUBSELECT)
     private Set<Avaliacao> avaliacoes;
 
     @Deprecated

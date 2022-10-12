@@ -27,7 +27,7 @@ public class UsuarioAutenticacaoController {
     private final IDisciplinaService disciplinaService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Object> registrar(@RequestBody @Validated(UsuarioRequestDTO.UsuarioView.RegistrarUsuarioPost.class) @JsonView(UsuarioRequestDTO.UsuarioView.RegistrarUsuarioPost.class) UsuarioRequestDTO usuarioRequestDTO) {
+    public ResponseEntity<Object> registrar(@RequestBody @Validated(UsuarioRequestDTO.UsuarioView.RegistrarUsuarioPost.class) @JsonView({UsuarioRequestDTO.UsuarioView.RegistrarUsuarioPost.class}) UsuarioRequestDTO usuarioRequestDTO) {
 
         if(usuarioService.existeMatricula(usuarioRequestDTO.getMatricula())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ResultView.builder()

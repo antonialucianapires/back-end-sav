@@ -1,6 +1,7 @@
 package br.com.escola.sav.services.turma;
 
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
+import br.com.escola.sav.dto.turma.TurmaInscritosDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.exception.ObjectNotFound;
@@ -10,6 +11,7 @@ import br.com.escola.sav.repositories.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,25 +26,36 @@ public class TurmaService implements ITurmaService {
 
     @Override
     public Turma criarTurma(Turma turma) {
+
+        var turmaExistente = repository.findByNomeAndPeriodoId(turma.getNome(), turma.getPeriodo().getId());
+
+        if(turmaExistente.isPresent()) {
+            turmaExistente.get().setNome(turma.getNome());
+            turmaExistente.get().setDescricao(turma.getDescricao());
+            turmaExistente.get().setPeriodo(turma.getPeriodo());
+
+            turma = turmaExistente.get();
+        }
+
         return repository.saveAndFlush(turma);
     }
 
     @Override
-    public void adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario) {
+    public Turma adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario) {
         var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
         var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
 
-        if(turma.getUsuarios().contains(usuario)) {
+        if(turma.getUsuarios().stream().anyMatch(u -> u.getId().equals(idUsuario))) {
             throw new SavException("O usuário informado já está inscrito nesta turma");
         }
         
         turma.getUsuarios().add(usuario);
-        repository.save(turma);
+        return repository.saveAndFlush(turma);
     }
 
     @Override
-    public Page<Turma> listarTurmas(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Turma> listarTurmas(Pageable pageable, Specification<Turma> specification) {
+        return repository.findAll(specification, pageable);
 
     }
 
@@ -51,18 +64,18 @@ public class TurmaService implements ITurmaService {
         var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
         var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
 
-        if(!turma.getUsuarios().contains(usuario)) {
-            throw new SavException("O usuário informado não foi encontrado nesta turma");
+        if(turma.getUsuarios().stream().anyMatch(u -> u.getId().equals(idUsuario))) {
+            turma.getUsuarios().removeAll(turma.getUsuarios().stream().filter( u -> u.getId().equals(idUsuario)).collect(Collectors.toList()));
+            repository.save(turma);
+            return;
         }
 
-        turma.getUsuarios().remove(usuario);
-        repository.save(turma);
+        throw new SavException("O usuário informado não foi encontrado nesta turma");
     }
 
     @Override
-    public List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma) {
-        var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
-        return turma.getUsuarios().stream().map(UsuarioRequestDTO::create).collect(Collectors.toList());
+    public Turma listarUsuarioPorTurma(Long idTurma) {
+        return repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
     }
 
     @Override
@@ -87,6 +100,11 @@ public class TurmaService implements ITurmaService {
         }
 
        throw new SavException("Usuário não está inscrito em uma turma.");
+    }
+
+    @Override
+    public Page<Turma> listarTurmas(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
 

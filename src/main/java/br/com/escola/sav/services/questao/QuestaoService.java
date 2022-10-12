@@ -5,10 +5,12 @@ import br.com.escola.sav.entities.questao.QuestaoValorObjetivo;
 import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.repositories.questao.QuestaoRepository;
 import br.com.escola.sav.repositories.questao.QuestaoValorObjetivoRepository;
+import br.com.escola.sav.specifications.QuestaoSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +31,16 @@ public class QuestaoService implements IQuestaoService{
     }
 
     @Override
-    public Page<Questao> listarQuestoes(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Questao> listarQuestoes(Pageable pageable, Specification<Questao> questoaSpec, List<Long> tiposQuestao) {
+
+        if(tiposQuestao.isEmpty()) {
+            return repository.findAll(questoaSpec,pageable);
+        }
+        var questoesPage =  repository.findAll(questoaSpec,pageable);
+
+        var questoesFiltradas = questoesPage.getContent().stream().filter(questao -> tiposQuestao.contains(questao.getTipoQuestao().getId())).collect(Collectors.toList());
+
+        return new PageImpl<>(questoesFiltradas, pageable,questoesPage.getTotalElements());
     }
 
     @Override

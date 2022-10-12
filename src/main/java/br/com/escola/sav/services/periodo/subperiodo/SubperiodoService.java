@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +70,7 @@ public class SubperiodoService implements ISubperiodoService{
     }
 
     @Override
-    public void excluirSubperiodos(List<SubPeriodo> subperiodos) {
+    public void excluirSubperiodos(Set<SubPeriodo> subperiodos) {
         subperiodoRepository.deleteAll(subperiodos);
     }
 

@@ -21,6 +21,8 @@ public class UsuarioRequestDTO {
         interface AtualizarSenhaPut {}
         interface AtualizarImagemPut {}
         interface AtualizarStatusUsuario {}
+
+        interface VisualizarUsuario {}
     }
 
     @NotNull(groups = UsuarioView.AtualizarStatusUsuario.class)
@@ -52,7 +54,7 @@ public class UsuarioRequestDTO {
     private String nome;
 
     @NotBlank(groups = UsuarioView.AtualizarImagemPut.class)
-    @JsonView(UsuarioView.AtualizarImagemPut.class)
+    @JsonView({UsuarioView.AtualizarImagemPut.class, UsuarioView.VisualizarUsuario.class})
     private String urlImagem;
 
     @NotBlank(groups = UsuarioView.AtualizarStatusUsuario.class)
@@ -75,6 +77,7 @@ public class UsuarioRequestDTO {
         usuarioDTO.setMatricula(usuarioDTO.getMatricula());
         usuarioDTO.setTipo(usuario.getTipoUsuario().name());
         usuarioDTO.setStatus(usuario.getStatusUsuario().name());
+        usuarioDTO.setUrlImagem(usuario.getUrlImagem());
         return usuarioDTO;
     }
 

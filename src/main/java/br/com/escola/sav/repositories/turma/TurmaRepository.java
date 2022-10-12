@@ -2,11 +2,12 @@ package br.com.escola.sav.repositories.turma;
 
 import br.com.escola.sav.entities.turma.Turma;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface TurmaRepository extends JpaRepository<Turma, Long> {
+public interface TurmaRepository extends JpaRepository<Turma, Long>, JpaSpecificationExecutor<Turma> {
     @Query(value = "select * from turmas t\n" +
             "inner join periodos p on t.periodo_id = p.id\n" +
             "inner join usuario_turma u on t.id = u.turma_id\n" +
@@ -14,4 +15,6 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
     Optional<Turma> findByPeriodoAndUsuarioId(Long usuario, Long periodo);
 
     Optional<Turma> findByPeriodoId(Integer periodo);
+
+    Optional<Turma> findByNomeAndPeriodoId(String nome, int id);
 }

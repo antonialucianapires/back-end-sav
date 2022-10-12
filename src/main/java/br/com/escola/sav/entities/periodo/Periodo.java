@@ -6,11 +6,11 @@ import br.com.escola.sav.entities.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "periodos")
@@ -32,12 +32,13 @@ public class Periodo {
     private TipoPeriodo tipoPeriodo;
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
-    @OneToMany(mappedBy = "periodo")
-    private List<SubPeriodo> subperiodos;
+    @OneToMany(mappedBy = "periodo", fetch=FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<SubPeriodo> subperiodos;
 
     @JsonIgnore
     @OneToMany(mappedBy = "periodo")
-    private List<Turma> turmas;
+    private Set<Turma> turmas;
 
     @Deprecated
     public Periodo() {}
@@ -47,7 +48,7 @@ public class Periodo {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.tipoPeriodo = tipoPeriodo;
-        this.subperiodos = new ArrayList<>();
+        this.subperiodos = new HashSet<>();
         this.dataCriacao = new Date();
     }
 

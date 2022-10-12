@@ -2,7 +2,10 @@ package br.com.escola.sav.entities.turma;
 
 import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.entities.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
@@ -33,6 +36,8 @@ public class Turma {
     private Periodo periodo;
 
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonProperty("data_criacao")
     private LocalDateTime dataHoraCriacao;
 
     @ManyToMany
@@ -40,4 +45,10 @@ public class Turma {
     @JoinTable(name = "usuario_turma", joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
     @Fetch(FetchMode.JOIN)
     private List<Usuario> usuarios;
+
+    @Transient
+    @JsonProperty("total_estudantes")
+    private int totalEstudantes;
+
+
 }

@@ -1,25 +1,25 @@
 package br.com.escola.sav.services.turma;
 
-import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.entities.turma.Turma;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface ITurmaService {
 
     Turma criarTurma(Turma turma);
 
-    void adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario);
+    Turma adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario);
 
-    Page<Turma> listarTurmas(Pageable pageable);
+    Page<Turma> listarTurmas(Pageable pageable, Specification<Turma> specification);
 
     void removerMatriculadoDaTurma(Long id, Long idUsuario);
 
-    List<UsuarioRequestDTO> listarUsuarioPorTurma(Long idTurma);
+    Turma listarUsuarioPorTurma(Long idTurma);
 
     void removerTurmaPorId(Long idTurma);
 
     Turma buscarTurmaPorUsuarioEPeriodo(Long usuarioId, Integer periodo);
+
+    Page<Turma> listarTurmas(Pageable pageable);
 }

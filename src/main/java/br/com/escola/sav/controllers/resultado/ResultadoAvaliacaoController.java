@@ -2,7 +2,6 @@ package br.com.escola.sav.controllers.resultado;
 
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.dto.resultado.ResultadoAvaliacaoDTO;
-import br.com.escola.sav.entities.resultado.ResultadoAvaliacao;
 import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.services.avaliacao.IAvaliacaoService;
 import br.com.escola.sav.services.resultado.IResultadoAvaliacaoService;
