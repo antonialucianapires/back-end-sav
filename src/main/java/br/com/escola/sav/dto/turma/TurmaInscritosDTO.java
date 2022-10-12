@@ -24,6 +24,8 @@ public class TurmaInscritosDTO {
     private String descricaoTurma;
     @JsonProperty("nome_periodo")
     private String nomePeriodo;
+    @JsonProperty("id_periodo")
+    private Integer idPeriodo;
     @JsonProperty("imagem")
     private String imagemUrl;
     @JsonProperty("data_criacao")

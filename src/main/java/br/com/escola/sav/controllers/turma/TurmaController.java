@@ -77,15 +77,20 @@ public class TurmaController {
 
     @PostMapping("/inscricao")
     public ResponseEntity<ResponsePattern> inscreverUsuarioNaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) @JsonView(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) TurmaDTO turmaDTO) {
-        turmaService.adicionarMatriculadoNaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
+
+        var turmaAtualizada =turmaService.adicionarMatriculadoNaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
+
+        var usuarioInscrito = turmaAtualizada.getUsuarios().stream().filter(usuario -> usuario.getId().equals(turmaDTO.getIdUsuario())).map(UsuarioRequestDTO::create).findFirst();
+
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder().httpCode(HttpStatus.CREATED.value())
                         .message("Usuário foi inscrito na turma com sucesso")
+                        .payload(usuarioInscrito.orElse(null))
                 .build());
     }
 
-    @DeleteMapping("/inscricao")
-    public ResponseEntity<ResponsePattern> removerUsuarioDaTurma(@RequestBody @Validated(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) @JsonView(TurmaDTO.TurmaView.InscricaoUsuarioTurma.class) TurmaDTO turmaDTO) {
-        turmaService.removerMatriculadoDaTurma(turmaDTO.getId(), turmaDTO.getIdUsuario());
+    @DeleteMapping("/{id}/usuario/{id_usuario}")
+    public ResponseEntity<ResponsePattern> removerUsuarioDaTurma(@PathVariable("id") Long idTurma, @PathVariable("id_usuario") Long idUsuario) {
+        turmaService.removerMatriculadoDaTurma(idTurma, idUsuario);
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
                 .message("Usuário foi removido da turma com sucesso")
                 .build());
@@ -99,6 +104,7 @@ public class TurmaController {
         var turmadto = TurmaInscritosDTO.builder()
                 .idTurma(turma.getId())
                 .nomeTurma(turma.getNome())
+                .idPeriodo(turma.getPeriodo().getId())
                 .nomePeriodo(turma.getPeriodo().getNome())
                 .descricaoTurma(turma.getDescricao())
                 .dataCriacao(turma.getDataHoraCriacao())

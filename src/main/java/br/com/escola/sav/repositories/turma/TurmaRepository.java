@@ -15,4 +15,6 @@ public interface TurmaRepository extends JpaRepository<Turma, Long>, JpaSpecific
     Optional<Turma> findByPeriodoAndUsuarioId(Long usuario, Long periodo);
 
     Optional<Turma> findByPeriodoId(Integer periodo);
+
+    Optional<Turma> findByNomeAndPeriodoId(String nome, int id);
 }

@@ -26,20 +26,31 @@ public class TurmaService implements ITurmaService {
 
     @Override
     public Turma criarTurma(Turma turma) {
+
+        var turmaExistente = repository.findByNomeAndPeriodoId(turma.getNome(), turma.getPeriodo().getId());
+
+        if(turmaExistente.isPresent()) {
+            turmaExistente.get().setNome(turma.getNome());
+            turmaExistente.get().setDescricao(turma.getDescricao());
+            turmaExistente.get().setPeriodo(turma.getPeriodo());
+
+            turma = turmaExistente.get();
+        }
+
         return repository.saveAndFlush(turma);
     }
 
     @Override
-    public void adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario) {
+    public Turma adicionarMatriculadoNaTurma(Long idTurma, Long idUsuario) {
         var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
         var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
 
-        if(turma.getUsuarios().contains(usuario)) {
+        if(turma.getUsuarios().stream().anyMatch(u -> u.getId().equals(idUsuario))) {
             throw new SavException("O usuário informado já está inscrito nesta turma");
         }
         
         turma.getUsuarios().add(usuario);
-        repository.save(turma);
+        return repository.saveAndFlush(turma);
     }
 
     @Override
@@ -53,12 +64,13 @@ public class TurmaService implements ITurmaService {
         var turma = repository.findById(idTurma).orElseThrow(() -> new ObjectNotFound("Turma não encontrada"));
         var usuario = usuarioRepository.findByIdAndStatusUsuario(idUsuario, StatusUsuario.ATIVO).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
 
-        if(!turma.getUsuarios().contains(usuario)) {
-            throw new SavException("O usuário informado não foi encontrado nesta turma");
+        if(turma.getUsuarios().stream().anyMatch(u -> u.getId().equals(idUsuario))) {
+            turma.getUsuarios().removeAll(turma.getUsuarios().stream().filter( u -> u.getId().equals(idUsuario)).collect(Collectors.toList()));
+            repository.save(turma);
+            return;
         }
 
-        turma.getUsuarios().remove(usuario);
-        repository.save(turma);
+        throw new SavException("O usuário informado não foi encontrado nesta turma");
     }
 
     @Override

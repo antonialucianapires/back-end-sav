@@ -3,9 +3,11 @@ package br.com.escola.sav.controllers.usuario;
 import br.com.escola.sav.dto.request.compartilhado.ResultView;
 import br.com.escola.sav.dto.request.usuario.UsuarioRequestDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
+import br.com.escola.sav.dto.usuario.UsuarioResumoDTO;
 import br.com.escola.sav.entities.usuario.Usuario;
 import br.com.escola.sav.enums.usuario.StatusUsuario;
 import br.com.escola.sav.services.usuario.IUsuarioService;
+import br.com.escola.sav.specifications.UsuarioSpecification;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,9 +31,9 @@ public class UsuarioController {
     private IUsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarUsuarios(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(defaultValue = "ATIVO", name = "status") StatusUsuario statusUsuario) {
+    public ResponseEntity<ResponsePattern> listarUsuarios(UsuarioSpecification.UsuarioSpec usuarioSpec, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        Page<Usuario> userModelPage = usuarioService.listarTodosUsuarios(pageable, statusUsuario);
+        Page<UsuarioResumoDTO> userModelPage = usuarioService.listarTodosUsuarios(usuarioSpec,pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value()).payload(userModelPage).build());
     }

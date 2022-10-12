@@ -5,10 +5,12 @@ import br.com.escola.sav.dto.questao.QuestaoResumoDTO;
 import br.com.escola.sav.dto.response.pattern.ResponsePattern;
 import br.com.escola.sav.entities.questao.ItemQuestao;
 import br.com.escola.sav.entities.questao.Questao;
+import br.com.escola.sav.entities.questao.TipoQuestao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
 import br.com.escola.sav.services.questao.IItemQuestaoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
 import br.com.escola.sav.services.questao.ITipoQuestaoService;
+import br.com.escola.sav.specifications.QuestaoSpecification;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -77,9 +81,18 @@ public class QuestaoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarQuestoes(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(defaultValue = "false", required = false) Boolean semItens) {
+    public ResponseEntity<ResponsePattern> listarQuestoes(QuestaoSpecification.QuestaoSpec questoaSpec, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(defaultValue = "false", required = false) Boolean semItens,
+                                                          @RequestParam(required = false, defaultValue = "") List<String> tipos) {
 
-        Page<Questao> questoes = questaoService.listarQuestoes(pageable);
+
+        List<Long> listaTipos = tipoQuestaoService.listarTipos().stream().map(TipoQuestao::getId).collect(Collectors.toList());
+
+        if(tipos != null && !tipos.isEmpty()) {
+            listaTipos = tipos.stream().map(Long::valueOf).collect(Collectors.toList());
+        }
+
+
+        Page<Questao> questoes = questaoService.listarQuestoes(pageable, QuestaoSpecification.filtroPorTipoQuestao(listaTipos).and(questoaSpec), new ArrayList<>());
 
         if(semItens) {
             var questoesDTO = questoes.getContent().stream().map(QuestaoResumoDTO::new).collect(Collectors.toList());

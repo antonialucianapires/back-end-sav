@@ -19,7 +19,7 @@ import br.com.escola.sav.services.disciplina.IDisciplinaService;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
 import br.com.escola.sav.services.usuario.IUsuarioService;
-import br.com.escola.sav.specifications.AavalicaoSpecification;
+import br.com.escola.sav.specifications.AvalicaoSpecification;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -198,14 +198,14 @@ public class AvaliacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarAvaliacoes(AavalicaoSpecification.AvaliacaoSpec spec,
+    public ResponseEntity<ResponsePattern> listarAvaliacoes(AvalicaoSpecification.AvaliacaoSpec spec,
                                                             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
                                                             @RequestParam(name = "periodo_id") Integer periodoId,
                                                             @RequestParam(name = "usuario_criacao", required = false) Long idUsuario) {
 
-        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(AavalicaoSpecification.filtroPeriodoId(periodoId)
+        Page<Avaliacao> avaliacaos = avaliacaoService.buscarAvaliacoes(AvalicaoSpecification.filtroPeriodoId(periodoId)
                 .and(spec)
-                .and(AavalicaoSpecification.filtroUsuarioCriacao(idUsuario))
+                .and(AvalicaoSpecification.filtroUsuarioCriacao(idUsuario))
                 ,pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
