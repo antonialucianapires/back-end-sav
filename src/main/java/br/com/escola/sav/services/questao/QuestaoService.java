@@ -1,8 +1,10 @@
 package br.com.escola.sav.services.questao;
 
+import br.com.escola.sav.entities.questao.ItemQuestao;
 import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.questao.QuestaoValorObjetivo;
 import br.com.escola.sav.exception.ObjectNotFound;
+import br.com.escola.sav.repositories.questao.ItemQuestaoRepository;
 import br.com.escola.sav.repositories.questao.QuestaoRepository;
 import br.com.escola.sav.repositories.questao.QuestaoValorObjetivoRepository;
 import br.com.escola.sav.specifications.QuestaoSpecification;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +28,8 @@ public class QuestaoService implements IQuestaoService{
 
     private final QuestaoRepository repository;
     private final QuestaoValorObjetivoRepository questaoValorObjetivoRepository;
+
+    private final ItemQuestaoRepository itemQuestaoRepository;
 
     @Override
     public Questao criarQuestao(Questao questao) {
@@ -49,7 +55,14 @@ public class QuestaoService implements IQuestaoService{
     }
 
     @Override
+    @Transactional
     public void deletarQuestao(Questao questao) {
+        var idsItens = itemQuestaoRepository.findAllById(questao.getItens().stream().map(ItemQuestao::getId).collect(Collectors.toList())).stream().map(ItemQuestao::getId).collect(Collectors.toList());
+
+        itemQuestaoRepository.deleteAllByQuestaoId(questao.getId());
+
+        questao.setItens(new ArrayList<>());
+
         repository.delete(questao);
     }
 

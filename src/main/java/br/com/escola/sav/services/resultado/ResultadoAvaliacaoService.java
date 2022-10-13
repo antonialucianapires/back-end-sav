@@ -58,11 +58,11 @@ public class ResultadoAvaliacaoService implements IResultadoAvaliacaoService{
 
             if(itemGabarito.isPresent()) {
 
-                var itemSelecionado = respostasAvaliacao.get(questao.getId()).stream().map(RespostaQuestaoApurada::getItemQuestao).findFirst();
+                var itemSelecionado = respostasAvaliacao.get(questao.getId()).stream().map(RespostaQuestaoApurada::getItemQuestaoId).findFirst();
 
                 if(itemSelecionado.isPresent()) {
 
-                    if(itemGabarito.get().getId().equals(itemSelecionado.get().getId()) && valorObjetivoQuestao.isPresent()) {
+                    if(itemGabarito.get().getId().equals(itemSelecionado.get()) && valorObjetivoQuestao.isPresent()) {
 
                         notalFinal.set(notalFinal.get() + (valorObjetivoQuestao.get().getValorObjetivo().doubleValue()));
 

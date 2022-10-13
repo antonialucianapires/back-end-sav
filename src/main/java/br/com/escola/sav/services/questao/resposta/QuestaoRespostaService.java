@@ -21,7 +21,7 @@ public class QuestaoRespostaService implements IQuestaoRespostaService{
 
     @Override
     public Map<Long, List<RespostaQuestaoApurada>> buscarMapaRespostasAvaliacao(Long idAvaliacao, Long idUsuario, List<Long> idQuestoes) {
-        return respostaRepository.findAllByAvaliacaoIdAndUsuarioIdAndQuestaoIdIn(idAvaliacao, idUsuario, idQuestoes).stream().collect(Collectors.groupingBy(r -> r.getQuestao().getId()));
+        return respostaRepository.findAllByAvaliacaoIdAndUsuarioIdAndQuestaoIdIn(idAvaliacao, idUsuario, idQuestoes).stream().collect(Collectors.groupingBy(RespostaQuestaoApurada::getQuestaoId));
     }
 
     @Override
