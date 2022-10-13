@@ -65,10 +65,10 @@ public class QuestaoRespostaApuradaController {
             }
 
             respostas.add(RespostaQuestaoApurada.builder()
-                    .usuario(usuario)
-                    .avaliacao(avaliacao)
-                    .questao(Questao.builder().id(resposta.getIdQuestao()).build())
-                    .itemQuestao(resposta.getIdItemSelecionado() == null ? null : ItemQuestao.builder().id(resposta.getIdItemSelecionado()).build())
+                    .usuarioId(usuario.getId())
+                    .avaliacaoId(avaliacao.getId())
+                    .questaoId(resposta.getIdQuestao())
+                    .itemQuestaoId(resposta.getIdItemSelecionado() == null ? null : resposta.getIdItemSelecionado())
                     .textoRespostaLivre(resposta.getTextoItem() == null ? null : resposta.getTextoItem())
                     .indicadorAcerto(estaCorreta.get() ? 'S' : 'N')
                     .indicadorCorrecao(estaCorreta.get() ? 'S' : 'N')

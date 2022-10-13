@@ -138,9 +138,8 @@ public class QuestaoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponsePattern> atualizarQuestao(@PathVariable("id") Long idQuestao) {
-        var questao = questaoService.buscarPorId(idQuestao);
 
-        itemQuestaoService.deletarItens(questao.getItens());
+        var questao = questaoService.buscarPorId(idQuestao);
 
         questaoService.deletarQuestao(questao);
 

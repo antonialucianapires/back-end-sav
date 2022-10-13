@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,8 +44,9 @@ public class Questao {
     @Column
     private LocalDateTime dataHoraCriacao;
 
-    @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.JOIN)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private List<ItemQuestao> itens;
 
     @JsonIgnore

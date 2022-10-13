@@ -22,25 +22,18 @@ public class RespostaQuestaoApurada {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @JoinColumn(name = "usuario_id")
-    @ManyToOne(optional = false)
-    private Usuario usuario;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "avaliacao_id")
-    private Avaliacao avaliacao;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "questao_id")
-    private Questao questao;
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private ItemQuestao itemQuestao;
+    @Column(name = "usuario_id", nullable = false)
+    private Long usuarioId;
+    @Column(name = "avaliacao_id", nullable = false)
+    private Long avaliacaoId;
+    @Column(name = "questao_id", nullable = false)
+    private Long questaoId;
+    @Column(name = "item_id", nullable = false)
+    private Long itemQuestaoId;
     @Column
     private String textoRespostaLivre;
-
     @Column
     private Character indicadorCorrecao;
-
     @Column
     private Character indicadorAcerto;
     @Column

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -24,6 +25,7 @@ public class TurmaDTO {
     @NotNull(groups = {TurmaDTO.TurmaView.AtualizarTurma.class})
     @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class, TurmaView.InscricaoUsuarioTurma.class})
     private Long id;
+    @NotBlank(groups = TurmaDTO.TurmaView.CriarTurma.class)
     @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class, TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
     private String nome;
     @JsonView({TurmaDTO.TurmaView.AtualizarTurma.class, TurmaDTO.TurmaView.CriarTurma.class,TurmaDTO.TurmaView.ExibirTurma.class})
