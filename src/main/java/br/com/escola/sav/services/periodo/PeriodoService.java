@@ -6,12 +6,15 @@ import br.com.escola.sav.entities.periodo.Periodo;
 import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.repositories.periodo.PeriodoRepository;
 import br.com.escola.sav.repositories.periodo.tipo.TipoPeriodoRepository;
 import br.com.escola.sav.services.periodo.subperiodo.ISubperiodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,8 @@ public class PeriodoService implements IPeriodoService{
             subperiodos.forEach(sub -> {
                 subperiodosEntities.add(new SubPeriodo(sub.getNomeSubperiodo(), novoPeriodo, sub.getDataInicio(), sub.getDataFim()));
             });
+        } else {
+            throw new SavException("Preencha os subperídos para finalizar a criação deste período.");
         }
 
         periodoRepository.save(novoPeriodo);
@@ -58,7 +63,7 @@ public class PeriodoService implements IPeriodoService{
     }
 
     @Override
-    public PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo) {
+    public PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo, List<SubperiodoRequestDTO> subperiodos) {
 
         TipoPeriodo tipoPeriodoEntity = tipoPeriodoRepository.findById(tipoPeriodo).orElseThrow(() -> new ObjectNotFound("Não encontramos o tipo de período informado"));
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período solicitado não existe"));
@@ -68,6 +73,14 @@ public class PeriodoService implements IPeriodoService{
         periodo.setDataFim(dataFim);
         periodo.setTipoPeriodo(tipoPeriodoEntity);
 
+        if(!subperiodos.isEmpty()) {
+            var subperiodosAtualizados = subperiodos.stream().map(sub -> new SubPeriodo(sub.getIdSubperiodo(), sub.getNomeSubperiodo(), periodo, sub.getDataInicio(), sub.getDataFim()));
+
+            subperiodoService.atualizarSubperiodos(subperiodosAtualizados.collect(Collectors.toList()));
+
+            periodo.setSubperiodos(subperiodosAtualizados.collect(Collectors.toUnmodifiableSet()));
+        }
+
         Periodo periodoAtualizado = periodoRepository.saveAndFlush(periodo);
 
         return new PeriodoResponseDTO(periodoAtualizado);
@@ -76,11 +89,16 @@ public class PeriodoService implements IPeriodoService{
     }
 
     @Override
+    @Transactional
     public void excluirPeriodo(int idPeriodo) {
         Periodo periodo = periodoRepository.findById(idPeriodo).orElseThrow(() -> new ObjectNotFound("O período informado não existe"));
 
+        if(!periodo.getTurmas().isEmpty()) {
+            throw new SavException("Este período possui turmas associadas e por esse motivo não pode ser excluído. Considere excluir a turma primeiro.");
+        }
+
         if(!periodo.getSubperiodos().isEmpty()) {
-            subperiodoService.excluirSubperiodos(periodo.getSubperiodos());
+            subperiodoService.excluirSubperiodosPorIdPeriodo(periodo.getId());
         }
 
         periodoRepository.delete(periodo);

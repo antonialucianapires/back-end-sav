@@ -48,4 +48,13 @@ public class SubPeriodo {
         this.dataFim = dataFim;
         this.dataCriacao = new Date();
     }
+
+    public SubPeriodo(int id, String nomeSubperiodo, Periodo periodo, Date dataInicio, Date dataFim) {
+        this.id = id;
+        this.periodo = periodo;
+        this.nome = nomeSubperiodo;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.dataCriacao = new Date();
+    }
 }

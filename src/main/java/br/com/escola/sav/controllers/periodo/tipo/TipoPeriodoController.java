@@ -26,7 +26,7 @@ public class TipoPeriodoController {
 
     @PostMapping
     public ResponseEntity<ResultView<Void>> criarTipoPeriodo(@RequestBody @Valid TipoPeriodoRequestDTO tipoPeriodoRequest) {
-        tipoPeriodoService.criarTipoPeriodo(tipoPeriodoRequest.getNomePeriodo());
+        tipoPeriodoService.criarTipoPeriodo(tipoPeriodoRequest.getNomeTipoPeriodo());
 
         ResultView<Void> resultView = ResultView.<Void>builder()
                 .status(HttpStatus.CREATED.value())

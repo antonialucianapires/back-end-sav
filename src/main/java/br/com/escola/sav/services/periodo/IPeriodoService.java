@@ -12,7 +12,7 @@ public interface IPeriodoService {
 
     List<PeriodoResponseDTO> consultarPeriodos(boolean comSubperiodos);
 
-    PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo);
+    PeriodoResponseDTO atualizarPeriodo(int idPeriodo, String nomePeriodo, Date dataInicio, Date dataFim, int tipoPeriodo, List<SubperiodoRequestDTO> subperiodos);
 
     void excluirPeriodo(int idPeriodo);
 
