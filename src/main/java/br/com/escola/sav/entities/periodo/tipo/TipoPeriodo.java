@@ -3,12 +3,14 @@ package br.com.escola.sav.entities.periodo.tipo;
 import br.com.escola.sav.entities.periodo.Periodo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "tipo_periodo")
 public class TipoPeriodo {
@@ -16,7 +18,7 @@ public class TipoPeriodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "nome_periodo", nullable = false, length = 50)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
     @Column(name = "data_criacao", nullable = false)

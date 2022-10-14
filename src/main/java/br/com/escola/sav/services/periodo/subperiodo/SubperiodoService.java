@@ -83,4 +83,14 @@ public class SubperiodoService implements ISubperiodoService{
     public SubPeriodo buscarSubperiodoPorId(Integer idSubperiodo) {
         return subperiodoRepository.findById(idSubperiodo).orElseThrow(() -> new ObjectNotFound("Subperíodo não encontrado"));
     }
+
+    @Override
+    public void excluirSubperiodosPorIdPeriodo(int idPeriodo) {
+        subperiodoRepository.deleteAllByPeriodoId(idPeriodo);
+    }
+
+    @Override
+    public void atualizarSubperiodos(List<SubPeriodo> subperiodosAtualizados) {
+        subperiodoRepository.saveAll(subperiodosAtualizados);
+    }
 }

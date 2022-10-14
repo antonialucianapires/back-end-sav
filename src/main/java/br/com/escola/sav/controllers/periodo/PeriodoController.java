@@ -54,7 +54,7 @@ public class PeriodoController {
     @PutMapping("/{id}")
     public ResponseEntity<ResultView<PeriodoResponseDTO>> atualizarPeriodo(@PathVariable(name = "id") int idPeriodo, @RequestBody PeriodoRequestDTO periodoRequestDTO) {
 
-        PeriodoResponseDTO periodoAtualizado = periodoService.atualizarPeriodo(idPeriodo, periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo());
+        PeriodoResponseDTO periodoAtualizado = periodoService.atualizarPeriodo(idPeriodo, periodoRequestDTO.getNomePeriodo(), periodoRequestDTO.getDataInicio(), periodoRequestDTO.getDataFim(),periodoRequestDTO.getTipoPeriodo(), periodoRequestDTO.getSubperiodos());
 
         ResultView<PeriodoResponseDTO> resultView = ResultView.<PeriodoResponseDTO>builder()
                 .status(HttpStatus.OK.value())
