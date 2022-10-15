@@ -7,6 +7,7 @@ import br.com.escola.sav.entities.questao.ItemQuestao;
 import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.questao.TipoQuestao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.services.questao.IItemQuestaoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
 import br.com.escola.sav.services.questao.ITipoQuestaoService;
@@ -154,7 +155,7 @@ public class QuestaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponsePattern> atualizarQuestao(@PathVariable("id") Long idQuestao) {
+    public ResponseEntity<ResponsePattern> deletarQuestao(@PathVariable("id") Long idQuestao) {
 
         var questao = questaoService.buscarPorId(idQuestao);
 
