@@ -1,6 +1,8 @@
 package br.com.escola.sav.entities.questao;
 
+import br.com.escola.sav.dto.questao.ItemQuestaoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,9 +29,11 @@ public class ItemQuestao {
     private Questao questao;
 
     @Column
+    @JsonProperty("indicador_gabarito")
     private Character indicadorGabarito;
 
     @JsonIgnore
     @Column(nullable = false)
     private LocalDateTime dataHoraCriacao;
+
 }

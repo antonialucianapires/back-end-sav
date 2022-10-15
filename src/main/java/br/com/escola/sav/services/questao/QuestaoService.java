@@ -4,6 +4,7 @@ import br.com.escola.sav.entities.questao.ItemQuestao;
 import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.questao.QuestaoValorObjetivo;
 import br.com.escola.sav.exception.ObjectNotFound;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.repositories.questao.ItemQuestaoRepository;
 import br.com.escola.sav.repositories.questao.QuestaoRepository;
 import br.com.escola.sav.repositories.questao.QuestaoValorObjetivoRepository;
@@ -57,7 +58,10 @@ public class QuestaoService implements IQuestaoService{
     @Override
     @Transactional
     public void deletarQuestao(Questao questao) {
-        var idsItens = itemQuestaoRepository.findAllById(questao.getItens().stream().map(ItemQuestao::getId).collect(Collectors.toList())).stream().map(ItemQuestao::getId).collect(Collectors.toList());
+
+        if(!questao.getAvaliacoes().isEmpty()) {
+            throw new SavException("Esta questão não pode ser excluída porque faz parte de uma ou mais avaliações. Considere excluir a questão da avaliação e tente novamente.");
+        }
 
         itemQuestaoRepository.deleteAllByQuestaoId(questao.getId());
 

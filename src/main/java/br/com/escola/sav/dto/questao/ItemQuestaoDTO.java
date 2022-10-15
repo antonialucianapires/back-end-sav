@@ -16,6 +16,7 @@ public class ItemQuestaoDTO implements Serializable {
 
     private static final long serialVersionUID = 3172058538473135667L;
 
+    @JsonView({QuestaoDTO.QuestaoView.AtualizarQuestao.class,QuestaoDTO.QuestaoView.VisualizarQuestao.class})
     private Long id;
     @JsonView({QuestaoDTO.QuestaoView.AtualizarQuestao.class, QuestaoDTO.QuestaoView.CriarQuestao.class,QuestaoDTO.QuestaoView.VisualizarQuestao.class})
     private String descricao;

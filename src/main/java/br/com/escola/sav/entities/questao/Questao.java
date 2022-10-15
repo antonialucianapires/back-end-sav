@@ -3,6 +3,7 @@ package br.com.escola.sav.entities.questao;
 import br.com.escola.sav.entities.avaliacao.Avaliacao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -34,16 +35,19 @@ public class Questao {
     private String enunciado;
 
     @ManyToOne(optional = false)
+    @JsonProperty("tipo_questao")
     private TipoQuestao tipoQuestao;
 
     @Column(nullable = false, name = "nivel")
     @Enumerated(EnumType.STRING)
+    @JsonProperty("nivel_questao")
     private NivelQuestao nivelQuestao;
 
     @JsonIgnore
     @Column
     private LocalDateTime dataHoraCriacao;
 
+    @JsonProperty("itens_questao")
     @OneToMany(mappedBy = "questao", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.JOIN)
     @OnDelete(action = OnDeleteAction.NO_ACTION)

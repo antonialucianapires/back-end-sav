@@ -7,6 +7,7 @@ import br.com.escola.sav.entities.questao.ItemQuestao;
 import br.com.escola.sav.entities.questao.Questao;
 import br.com.escola.sav.entities.questao.TipoQuestao;
 import br.com.escola.sav.enums.questao.NivelQuestao;
+import br.com.escola.sav.exception.SavException;
 import br.com.escola.sav.services.questao.IItemQuestaoService;
 import br.com.escola.sav.services.questao.IQuestaoService;
 import br.com.escola.sav.services.questao.ITipoQuestaoService;
@@ -127,6 +128,23 @@ public class QuestaoController {
         questao.setNivelQuestao(NivelQuestao.valueOf(questaoDTO.getNivel()));
         questao.setTipoQuestao(tipoQuestao);
 
+        List<ItemQuestao> itensQuestao = new ArrayList<>();
+        if(!questaoDTO.getItensQuestao().isEmpty()) {
+            questaoDTO.getItensQuestao().forEach(itemDto -> {
+                itensQuestao.add(ItemQuestao.builder()
+                        .id(itemDto.getId())
+                        .descricao(itemDto.getDescricao())
+                        .questao(questao)
+                        .indicadorGabarito(itemDto.getIndicadorGabarito())
+                        .dataHoraCriacao(LocalDateTime.now())
+                        .build());
+
+            });
+
+            questao.setItens(itensQuestao);
+            itemQuestaoService.salvarItens(itensQuestao);
+        }
+
         questaoService.criarQuestao(questao);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
@@ -137,7 +155,7 @@ public class QuestaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponsePattern> atualizarQuestao(@PathVariable("id") Long idQuestao) {
+    public ResponseEntity<ResponsePattern> deletarQuestao(@PathVariable("id") Long idQuestao) {
 
         var questao = questaoService.buscarPorId(idQuestao);
 
