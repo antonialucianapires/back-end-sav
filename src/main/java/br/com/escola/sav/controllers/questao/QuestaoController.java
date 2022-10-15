@@ -127,6 +127,23 @@ public class QuestaoController {
         questao.setNivelQuestao(NivelQuestao.valueOf(questaoDTO.getNivel()));
         questao.setTipoQuestao(tipoQuestao);
 
+        List<ItemQuestao> itensQuestao = new ArrayList<>();
+        if(!questaoDTO.getItensQuestao().isEmpty()) {
+            questaoDTO.getItensQuestao().forEach(itemDto -> {
+                itensQuestao.add(ItemQuestao.builder()
+                        .id(itemDto.getId())
+                        .descricao(itemDto.getDescricao())
+                        .questao(questao)
+                        .indicadorGabarito(itemDto.getIndicadorGabarito())
+                        .dataHoraCriacao(LocalDateTime.now())
+                        .build());
+
+            });
+
+            questao.setItens(itensQuestao);
+            itemQuestaoService.salvarItens(itensQuestao);
+        }
+
         questaoService.criarQuestao(questao);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())

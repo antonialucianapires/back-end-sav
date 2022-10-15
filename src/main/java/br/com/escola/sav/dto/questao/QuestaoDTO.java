@@ -49,10 +49,11 @@ public class QuestaoDTO implements Serializable {
     private String nomeTipoQuestao;
     @NotBlank(groups = {QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class})
     @JsonView({QuestaoView.AtualizarQuestao.class, QuestaoView.CriarQuestao.class,QuestaoView.VisualizarQuestao.class})
+    @JsonProperty("nivel_questao")
     private String nivel;
     @JsonProperty("valor_questao")
     private Double valorQuestao;
-    @JsonView({QuestaoView.CriarQuestao.class,QuestaoView.VisualizarQuestao.class})
+    @JsonView({QuestaoView.CriarQuestao.class,QuestaoView.VisualizarQuestao.class,QuestaoView.AtualizarQuestao.class})
             @JsonProperty("itens_questao")
     List<ItemQuestaoDTO> itensQuestao = new ArrayList<>();
 }
