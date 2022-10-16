@@ -19,4 +19,6 @@ public interface IAvaliacaoService {
     void distribuirAvaliacaoParaTurmas(List<AvaliacaoTurma> avaliacaoTurmas);
 
     List<Avaliacao> buscarAvaliacoesPorTurma(Turma turma);
+
+    List<Avaliacao>  listarAvaliacoes();
 }

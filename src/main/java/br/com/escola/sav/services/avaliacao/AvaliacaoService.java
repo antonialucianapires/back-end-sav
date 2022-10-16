@@ -49,4 +49,9 @@ public class AvaliacaoService implements IAvaliacaoService{
         var ids = avaliacaoTurma.stream().map(AvaliacaoTurma::getId).map(AvaliacaoTurmaId::getIdAvaliacao).collect(Collectors.toUnmodifiableSet());
         return repository.findAllById(ids);
     }
+
+    @Override
+    public List<Avaliacao> listarAvaliacoes() {
+        return repository.findAll();
+    }
 }

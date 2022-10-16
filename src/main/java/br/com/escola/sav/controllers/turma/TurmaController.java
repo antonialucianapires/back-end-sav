@@ -57,22 +57,12 @@ public class TurmaController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePattern> listarTurmas(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,@RequestParam(name = "id_usuario") Long usuarioId) {
-        var usuario = usuarioService.buscarUsuarioPorId(usuarioId).orElseThrow(() -> new ObjectNotFound("Usuário não encontrado"));
-
-        if(usuario.isAdmin()) {
+    public ResponseEntity<ResponsePattern> listarTurmas(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,@RequestParam(name = "id_usuario") Long usuarioId,@RequestParam(name = "id_periodo", required = false) Integer periodoId) {
             var turmas = turmaService.listarTurmas(pageable);
             turmas.getContent().forEach(turma -> turma.setTotalEstudantes((int) turma.getUsuarios().stream().filter(u -> u.getTipoUsuario().equals(TipoUsuario.ESTUDANTE) && u.getStatusUsuario().equals(StatusUsuario.ATIVO)).count()));
             return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
                     .payload(turmas)
                     .build());
-        }
-
-        var turmas = turmaService.listarTurmas(pageable, TurmaSpecification.filtroUsuarioId(usuarioId));
-        turmas.getContent().forEach(turma -> turma.setTotalEstudantes((int) turma.getUsuarios().stream().filter(u -> u.getTipoUsuario().equals(TipoUsuario.ESTUDANTE) && u.getStatusUsuario().equals(StatusUsuario.ATIVO)).count()));
-        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder().httpCode(HttpStatus.OK.value())
-                .payload(turmas)
-                .build());
     }
 
     @PostMapping("/inscricao")

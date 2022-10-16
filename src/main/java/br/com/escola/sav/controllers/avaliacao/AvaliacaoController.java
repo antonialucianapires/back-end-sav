@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/avaliacoes")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class AvaliacaoController {
 
@@ -90,6 +90,7 @@ public class AvaliacaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())
                 .message("Avaliação criada com sucesso!")
+                .payload(avaliacaoCriada)
                 .build());
 
     }
@@ -169,6 +170,7 @@ public class AvaliacaoController {
                     .dataHoraFim(avaliacao.getDataHoraFim().toString())
                     .periodo(avaliacao.getSubPeriodo().getPeriodo().getNome())
                     .subperiodo(avaliacao.getSubPeriodo().getNome())
+                    .notaObjetivo(avaliacao.getNotaObjetivo())
                     .questoes(questoes)
                     .build();
 
@@ -188,6 +190,7 @@ public class AvaliacaoController {
                 .dataHoraFim(avaliacao.getDataHoraFim().toString())
                 .periodo(avaliacao.getSubPeriodo().getPeriodo().getNome())
                 .subperiodo(avaliacao.getSubPeriodo().getNome())
+                .notaObjetivo(avaliacao.getNotaObjetivo())
                 .questoes(null)
                 .build();
 
@@ -211,6 +214,17 @@ public class AvaliacaoController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
                 .httpCode(HttpStatus.OK.value())
                 .payload(avaliacaos)
+                .build());
+    }
+
+    @GetMapping("/ativas")
+    public ResponseEntity<ResponsePattern> listartodasAvaliacoes() {
+        var avaliacoes = avaliacaoService.listarAvaliacoes();
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePattern.builder()
+                .httpCode(HttpStatus.OK.value())
+                .payload(avaliacoes)
                 .build());
     }
 

@@ -51,13 +51,13 @@ public class AvaliacaoDTO {
     @JsonProperty("id_disciplina")
     private Long idDisciplina;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT-3")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone="GMT-3")
     @NotNull(groups = {AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class})
     @JsonView({AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class,AvaliacaoDTO.AvaliacaoView.AvaliacaoResumo.class})
     @JsonProperty("data_hora_inicio")
     private LocalDateTime dataHoraInicio;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT-3")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone="GMT-3")
     @NotNull(groups = {AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class,AvaliacaoDTO.AvaliacaoView.AvaliacaoResumo.class})
     @JsonView({AvaliacaoDTO.AvaliacaoView.CriarAvaliacao.class, AvaliacaoDTO.AvaliacaoView.AtualizarAvaliacao.class})
     @JsonProperty("data_hora_fim")
