@@ -8,4 +8,6 @@ public interface ITipoPeriodoService {
     void criarTipoPeriodo(String nome);
 
     List<TipoPeriodoResponseDTO> listarTipoPeriodos();
+
+    void atualizar(String nomeTipoPeriodo, Integer tipoId);
 }
