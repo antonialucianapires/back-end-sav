@@ -49,5 +49,17 @@ public class TipoPeriodoController {
         return new ResponseEntity<>(resultView, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultView<Void>> criarTipoPeriodo(@RequestBody @Valid TipoPeriodoRequestDTO tipoPeriodoRequest,@PathVariable("id") Integer tipoId) {
+        tipoPeriodoService.atualizar(tipoPeriodoRequest.getNomeTipoPeriodo(), tipoId);
+
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Tipo de período atualizado com sucesso!")
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.CREATED);
+    }
+
 
 }
