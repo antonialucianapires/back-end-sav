@@ -10,4 +10,6 @@ public interface ITipoPeriodoService {
     List<TipoPeriodoResponseDTO> listarTipoPeriodos();
 
     void atualizar(String nomeTipoPeriodo, Integer tipoId);
+
+    void deletarTipos();
 }
