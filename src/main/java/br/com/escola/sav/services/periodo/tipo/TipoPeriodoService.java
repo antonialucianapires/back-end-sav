@@ -37,4 +37,9 @@ public class TipoPeriodoService implements ITipoPeriodoService{
         tipo.setNome(nomeTipoPeriodo);
         tipoPeriodoRepository.save(tipo);
     }
+
+    @Override
+    public void deletarTipos() {
+        tipoPeriodoRepository.deleteAll();
+    }
 }

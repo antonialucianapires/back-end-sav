@@ -61,5 +61,17 @@ public class TipoPeriodoController {
         return new ResponseEntity<>(resultView, HttpStatus.CREATED);
     }
 
+    @DeleteMapping
+    public ResponseEntity<ResultView<Void>> removerTipos() {
+        tipoPeriodoService.deletarTipos();
+
+        ResultView<Void> resultView = ResultView.<Void>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Tipos deletados")
+                .build();
+
+        return new ResponseEntity<>(resultView, HttpStatus.CREATED);
+    }
+
 
 }

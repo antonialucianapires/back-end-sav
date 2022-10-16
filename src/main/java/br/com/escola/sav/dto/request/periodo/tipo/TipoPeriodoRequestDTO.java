@@ -17,6 +17,5 @@ public class TipoPeriodoRequestDTO implements Serializable {
     private static final long serialVersionUID = -33362388894360785L;
 
     @JsonProperty("nome_tipo")
-    @UniqueValue(domainClass = TipoPeriodo.class, fieldName = "nome", message = "Já existe um tipo de período com este nome")
     private String nomeTipoPeriodo;
 }
