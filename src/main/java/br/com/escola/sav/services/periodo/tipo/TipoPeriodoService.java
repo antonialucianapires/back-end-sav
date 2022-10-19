@@ -4,6 +4,7 @@ import br.com.escola.sav.dto.response.periodo.tipo.TipoPeriodoResponseDTO;
 import br.com.escola.sav.entities.periodo.tipo.TipoPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.repositories.periodo.tipo.TipoPeriodoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TipoPeriodoService implements ITipoPeriodoService{
 
     private final TipoPeriodoRepository tipoPeriodoRepository;
-
-    @Autowired
-    public TipoPeriodoService(TipoPeriodoRepository tipoPeriodoRepository) {
-        this.tipoPeriodoRepository = tipoPeriodoRepository;
-    }
 
     @Override
     public void criarTipoPeriodo(String nome) {

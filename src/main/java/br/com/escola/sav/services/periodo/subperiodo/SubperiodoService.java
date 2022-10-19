@@ -6,6 +6,7 @@ import br.com.escola.sav.entities.periodo.subperiodo.SubPeriodo;
 import br.com.escola.sav.exception.ObjectNotFound;
 import br.com.escola.sav.repositories.periodo.PeriodoRepository;
 import br.com.escola.sav.repositories.periodo.subperiodo.SubperiodoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SubperiodoService implements ISubperiodoService{
 
     private final SubperiodoRepository subperiodoRepository;
     private final PeriodoRepository periodoRepository;
-
-    @Autowired
-    public SubperiodoService(SubperiodoRepository subperiodoRepository, PeriodoRepository periodoRepository) {
-        this.subperiodoRepository = subperiodoRepository;
-        this.periodoRepository = periodoRepository;
-    }
 
     @Override
     public void criarSubperiodo(String nomeSubperiodo, int codigoPeriodo, Date dataInicio, Date dataFim) {

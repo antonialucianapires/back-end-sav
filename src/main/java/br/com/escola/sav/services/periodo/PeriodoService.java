@@ -73,18 +73,9 @@ public class PeriodoService implements IPeriodoService{
         periodo.setDataFim(dataFim);
         periodo.setTipoPeriodo(tipoPeriodoEntity);
 
-        if(!subperiodos.isEmpty()) {
-            var subperiodosAtualizados = subperiodos.stream().map(sub -> new SubPeriodo(sub.getIdSubperiodo(), sub.getNomeSubperiodo(), periodo, sub.getDataInicio(), sub.getDataFim()));
-
-            subperiodoService.atualizarSubperiodos(subperiodosAtualizados.collect(Collectors.toList()));
-
-            periodo.setSubperiodos(subperiodosAtualizados.collect(Collectors.toUnmodifiableSet()));
-        }
-
-        Periodo periodoAtualizado = periodoRepository.saveAndFlush(periodo);
+        Periodo periodoAtualizado = periodoRepository.save(periodo);
 
         return new PeriodoResponseDTO(periodoAtualizado);
-
 
     }
 
